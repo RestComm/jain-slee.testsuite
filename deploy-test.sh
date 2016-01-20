@@ -26,12 +26,12 @@ function check
   fi
 
   printf "    %-30s | %-10s | %-20s\n" $1 "Deploy" "$ERRCOUNT error(s)"
-  printf "    %-30s | %-10s | %-20s\n" $1 "Deploy" "$ERRCOUNT error(s)" >> $REPORT/deploy-report.log
+  printf "    %-30s | %-10s | %-20s\n" $1 "Deploy" "$ERRCOUNT error(s)" >> $REPORTS/deploy-report.log
   if [ "$ERRCOUNT" != 0 ]
   then
-    echo "" >> $REPORT/deploy-report.log
-    grep -i -A 4 -B 2 " error " $LOG/out-$1.deploy.log >> $REPORT/deploy-report.log
-    echo -e "> ... see in file $LOG/out-$1.deploy.log\n" >> $REPORT/deploy-report.log
+    echo "" >> $REPORTS/deploy-report.log
+    grep -i -A 4 -B 2 " error " $LOG/out-$1.deploy.log >> $REPORTS/deploy-report.log
+    echo -e "> ... see in file $LOG/out-$1.deploy.log\n" >> $REPORTS/deploy-report.log
   fi
   
   cp $LOG/out-deploy.log $LOG/out-"$1"-1.log
@@ -44,12 +44,12 @@ function check
   ERRCOUNT=$(grep -ic " error " $LOG/out-$1.undeploy.log)
 
   printf "    %-30s | %-10s | %-20s\n" $1 "Undeploy" "$ERRCOUNT error(s)"
-  printf "    %-30s | %-10s | %-20s\n" $1 "Undeploy" "$ERRCOUNT error(s)" >> $REPORT/deploy-report.log
+  printf "    %-30s | %-10s | %-20s\n" $1 "Undeploy" "$ERRCOUNT error(s)" >> $REPORTS/deploy-report.log
   if [ "$ERRCOUNT" != 0 ]
   then
-    echo "" >> $REPORT/deploy-report.log
-    grep -i -A 4 -B 2 " error " $LOG/out-$1.undeploy.log >> $REPORT/deploy-report.log
-    echo -e "> ... see in file $LOG/out-$1.undeploy.log\n" >> $REPORT/deploy-report.log
+    echo "" >> $REPORTS/deploy-report.log
+    grep -i -A 4 -B 2 " error " $LOG/out-$1.undeploy.log >> $REPORTS/deploy-report.log
+    echo -e "> ... see in file $LOG/out-$1.undeploy.log\n" >> $REPORTS/deploy-report.log
   fi
   
   cd ..
@@ -61,19 +61,19 @@ export SS7_STACK=$HOME/extra/mobicents-ss7/mobicents-jss7-*/ss7
 echo $JBOSS_HOME
 
 rm -rf $LOG
-rm -rf $REPORT
+rm -rf $REPORTS
 mkdir $LOG
-mkdir $REPORT
+mkdir $REPORTS
 $JBOSS_HOME/bin/run.sh > $LOG/out-deploy.log 2>&1 &
 JBOSS_PID="$!"
 echo "JBOSS: $JBOSS_PID"
 
 sleep 30
 
-echo -e "Deploy/Undeploy Report" >> $REPORT/deploy-report.log
+echo -e "Deploy/Undeploy Report" >> $REPORTS/deploy-report.log
 
 # Resources
-echo -e "\nRAs:\n" >> $REPORT/deploy-report.log
+echo -e "\nRAs:\n" >> $REPORTS/deploy-report.log
 
 # Diameter
 cd $HOME/resources
@@ -128,7 +128,7 @@ done
 kill -9 $SMPPSERVER_PID
 
 # Examples
-echo -e "\nExamples:\n" >> $REPORT/deploy-report.log
+echo -e "\nExamples:\n" >> $REPORTS/deploy-report.log
 
 cd $HOME/examples
 for dir in */
@@ -151,7 +151,7 @@ do
 done
 
 # Enablers
-echo -e "\nEnablers:\n" >> $REPORT/deploy-report.log
+echo -e "\nEnablers:\n" >> $REPORTS/deploy-report.log
 
 cd $HOME/enablers
 for dir in */
