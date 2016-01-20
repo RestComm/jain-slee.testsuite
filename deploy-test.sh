@@ -57,7 +57,7 @@ function check
 
 # Start JSLEE
 export JBOSS_HOME=$HOME/jboss-5.1.0.GA
-export SS7_STACK=$HOME/extra/mobicents-ss7/mobicents-jss7-3.0.1322/ss7
+export SS7_STACK=$HOME/extra/mobicents-ss7/mobicents-jss7-*/ss7
 echo $JBOSS_HOME
 
 rm -rf $LOG
