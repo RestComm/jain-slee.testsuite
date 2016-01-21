@@ -3,8 +3,8 @@
 export HOME=$PWD
 export LOG=$HOME/test-logs
 export REPORTS=$HOME/test-reports
-#export SIPP=$HOME/test-tools/sipp/sipp
-export SIPP=sipp
+export SIPP=$HOME/test-tools/sipp/sipp
+#export SIPP=sipp
 
 sipp -v
 $SIPP -v
