@@ -1,8 +1,8 @@
 #!/bin/bash
 
 export HOME=$PWD
-export LOG=$HOME/test-log
-export REPORTS=$HOME/reports
+export LOG=$HOME/test-logs
+export REPORTS=$HOME/test-reports
 
 function check
 {
@@ -60,10 +60,10 @@ export JBOSS_HOME=$HOME/jboss-5.1.0.GA
 export SS7_STACK=$HOME/extra/mobicents-ss7/mobicents-jss7-*/ss7
 echo $JBOSS_HOME
 
-rm -rf $LOG
-rm -rf $REPORTS
-mkdir $LOG
-mkdir $REPORTS
+rm -rf $LOG/*
+rm -rf $REPORTS/*
+mkdir -p $LOG
+mkdir -p $REPORTS
 $JBOSS_HOME/bin/run.sh > $LOG/out-deploy.log 2>&1 &
 JBOSS_PID="$!"
 echo "JBOSS: $JBOSS_PID"
