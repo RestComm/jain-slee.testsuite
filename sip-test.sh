@@ -6,6 +6,9 @@ export REPORTS=$HOME/test-reports
 #export SIPP=$HOME/test-tools/sipp/sipp
 export SIPP=sipp
 
+sipp -v
+$SIPP -v
+
 # Start JSLEE
 export JBOSS_HOME=$HOME/jboss-5.1.0.GA
 echo $JBOSS_HOME
@@ -18,7 +21,7 @@ $JBOSS_HOME/bin/run.sh > $LOG/siptests-jboss.log 2>&1 &
 JBOSS_PID="$!"
 echo "JBOSS_PID: $JBOSS_PID"
 
-sleep 30
+sleep 45
 
 echo -e "SIP Tests Report\n" >> $REPORTS/siptests-report.log
 

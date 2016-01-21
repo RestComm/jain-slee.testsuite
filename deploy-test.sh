@@ -68,7 +68,7 @@ $JBOSS_HOME/bin/run.sh > $LOG/deploy-jboss.log 2>&1 &
 JBOSS_PID="$!"
 echo "JBOSS: $JBOSS_PID"
 
-sleep 30
+sleep 45
 
 echo -e "Deploy/Undeploy Report" >> $REPORTS/deploy-report.log
 
