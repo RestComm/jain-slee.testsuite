@@ -11,11 +11,11 @@ function check
   cd $1
   pwd
   
-  cp $LOG/out-deploy.log $LOG/out-"$1"-0.log
+  cp $LOG/deploy-jboss.log $LOG/out-"$1"-0.log
   echo "Deploy: $2"
   ant $2
   sleep $3
-  diff $LOG/out-"$1"-0.log $LOG/out-deploy.log > $LOG/out-"$1".deploy.log
+  diff $LOG/out-"$1"-0.log $LOG/deploy-jboss.log > $LOG/out-"$1".deploy.log
   
   # grep error
   ERRCOUNT=$(grep -ic " error " $LOG/out-$1.deploy.log)
@@ -34,11 +34,11 @@ function check
     echo -e "> ... see in file $LOG/out-$1.deploy.log\n" >> $REPORTS/deploy-report.log
   fi
   
-  cp $LOG/out-deploy.log $LOG/out-"$1"-1.log
+  cp $LOG/deploy-jboss.log $LOG/out-"$1"-1.log
   echo "Undeploy: $4"
   ant $4
   sleep $5
-  diff $LOG/out-"$1"-1.log $LOG/out-deploy.log > $LOG/out-"$1".undeploy.log
+  diff $LOG/out-"$1"-1.log $LOG/deploy-jboss.log > $LOG/out-"$1".undeploy.log
   
   # grep error
   ERRCOUNT=$(grep -ic " error " $LOG/out-$1.undeploy.log)
@@ -64,7 +64,7 @@ rm -rf $LOG/*
 rm -rf $REPORTS/*
 mkdir -p $LOG
 mkdir -p $REPORTS
-$JBOSS_HOME/bin/run.sh > $LOG/out-deploy.log 2>&1 &
+$JBOSS_HOME/bin/run.sh > $LOG/deploy-jboss.log 2>&1 &
 JBOSS_PID="$!"
 echo "JBOSS: $JBOSS_PID"
 
