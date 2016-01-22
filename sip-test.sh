@@ -34,7 +34,7 @@ echo -e "Exit code:
    -2: Fatal error binding a socket\n" >> $REPORTS/siptests-report.log
 
 # SIP UAS
-./sip-test-uas.sh
+#./sip-test-uas.sh
 
 # SIP B2BUA
 ./sip-test-b2bua.sh
