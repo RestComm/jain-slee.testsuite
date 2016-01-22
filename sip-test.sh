@@ -31,13 +31,13 @@ echo -e "Exit code:
    -2: Fatal error binding a socket\n" >> $REPORT
 
 # SIP UAS
-#./sip-test-uas.sh
+./sip-test-uas.sh
 
 # SIP B2BUA
 ./sip-test-b2bua.sh
 
 # SIP Wake Up
 # SIP JDBC Registrar
-#./sip-test-misc.sh
+./sip-test-misc.sh
 
 pkill -TERM -P $JBOSS_PID
