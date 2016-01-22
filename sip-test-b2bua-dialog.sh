@@ -2,10 +2,11 @@
 
 ### SIP B2BUA DIALOG
 echo -e "\nTesting SIP B2BUA DIALOG Example"
+cd $HOME/examples/sip-b2bua
 
 echo -e "\nStart Single Test\n"
-
 cd sipp
+
 $SIPP -trace_err -sf uas_DIALOG.xml -i 127.0.0.1 -p 5090 -r 1 -m 10 -l 100 -bg
 #UAS_PID=$!
 UAS_PID=$(ps aux | grep '[u]as_DIALOG.xml' | awk '{print $2}')

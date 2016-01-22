@@ -48,7 +48,7 @@ cd $HOME
 
 # Undeploy
 echo -e "\nUndeploy SIP B2BUA Example\n"
-cd ..
+cd $HOME/examples/sip-b2bua
 ant undeploy-all
 sleep 10
 

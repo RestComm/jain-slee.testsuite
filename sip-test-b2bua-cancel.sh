@@ -2,12 +2,12 @@
 
 ### SIP B2BUA CANCEL
 echo -e "\nTesting SIP B2BUA CANCEL Example"
+cd $HOME/examples/sip-b2bua
 
 echo -e "\nStart Single Test\n"
-
 cp $LOG/siptests-jboss.log $LOG/out-b2bua-cancel-0.log
+cd sipp
 
-#cd sipp
 $SIPP -trace_err -sf uas_CANCEL.xml -i 127.0.0.1 -p 5090 -r 1 -m 10 -l 100 -bg
 #UAS_PID=$!
 UAS_PID=$(ps aux | grep '[u]as_CANCEL.xml' | awk '{print $2}')
