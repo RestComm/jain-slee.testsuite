@@ -42,6 +42,7 @@ cd $HOME/examples/sip-b2bua
 ant deploy-all
 sleep 10
 
+cd $HOME
 #./sip-test-b2bua-dialog.sh
 ./sip-test-b2bua-cancel.sh
 
@@ -51,6 +52,7 @@ cd ..
 ant undeploy-all
 sleep 10
 
+cd $HOME
 # SIP Wake Up
 # SIP JDBC Registrar
 #./sip-test-misc.sh
