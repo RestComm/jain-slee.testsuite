@@ -31,7 +31,7 @@ echo -e "Exit code:
    -2: Fatal error binding a socket\n" >> $REPORT
 
 # SIP UAS
-#./sip-test-uas.sh
+./sip-test-uas.sh
 
 # SIP B2BUA
 ### SIP B2BUA
@@ -43,7 +43,7 @@ ant deploy-all
 sleep 10
 
 cd $HOME
-#./sip-test-b2bua-dialog.sh
+./sip-test-b2bua-dialog.sh
 ./sip-test-b2bua-cancel.sh
 
 # Undeploy
@@ -55,6 +55,6 @@ sleep 10
 cd $HOME
 # SIP Wake Up
 # SIP JDBC Registrar
-#./sip-test-misc.sh
+./sip-test-misc.sh
 
 pkill -TERM -P $JBOSS_PID
