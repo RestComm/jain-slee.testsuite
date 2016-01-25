@@ -37,7 +37,7 @@ while :; do
 done
 
 SIP_B2BUA_CANCEL_EXIT=$?
-echo -e "\nSIP B2BUA CANCEL Single Test result: $SIP_B2BUA_CANCEL_EXIT for $TIME seconds\n" >> $REPORT
+echo -e "SIP B2BUA CANCEL Single Test result: $SIP_B2BUA_CANCEL_EXIT for $TIME seconds\n" >> $REPORT
 echo -e "\nFinish Single test"
 
 diff $LOG/out-b2bua-cancel-0.log $LOG/siptests-jboss.log > $LOG/out-b2bua-cancel.simple.log
@@ -82,7 +82,7 @@ while :; do
 done
 
 SIP_B2BUA_CANCEL_PERF_EXIT=$?
-echo -e "\nSIP B2BUA CANCEL Performance Test result: $SIP_B2BUA_CANCEL_PERF_EXIT for $TIME seconds\n" >> $REPORT
+echo -e "SIP B2BUA CANCEL Performance Test result: $SIP_B2BUA_CANCEL_PERF_EXIT for $TIME seconds\n" >> $REPORT
 echo -e "\nFinish Performace test"
 
 diff $LOG/out-b2bua-cancel-0.log $LOG/siptests-jboss.log > $LOG/out-b2bua-cancel.perf.log
