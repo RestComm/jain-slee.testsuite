@@ -3,6 +3,7 @@
 export HOME=$PWD
 export LOG=$HOME/test-logs
 export REPORTS=$HOME/test-reports
+export REPORT=$REPORTS/deploy-report.log
 
 function check
 {
@@ -26,12 +27,12 @@ function check
   fi
 
   printf "    %-30s | %-10s | %-20s\n" $1 "Deploy" "$ERRCOUNT error(s)"
-  printf "    %-30s | %-10s | %-20s\n" $1 "Deploy" "$ERRCOUNT error(s)" >> $REPORTS/deploy-report.log
+  printf "    %-30s | %-10s | %-20s\n" $1 "Deploy" "$ERRCOUNT error(s)" >> $REPORT
   if [ "$ERRCOUNT" != 0 ]
   then
-    echo "" >> $REPORTS/deploy-report.log
-    grep -i -A 4 -B 2 " error " $LOG/out-$1.deploy.log >> $REPORTS/deploy-report.log
-    echo -e "> ... see in file $LOG/out-$1.deploy.log\n" >> $REPORTS/deploy-report.log
+    echo "" >> $REPORT
+    grep -i -A 4 -B 2 " error " $LOG/out-$1.deploy.log >> $REPORT
+    echo -e "> ... see in file $LOG/out-$1.deploy.log\n" >> $REPORT
   fi
   
   cp $LOG/deploy-jboss.log $LOG/out-"$1"-1.log
@@ -44,12 +45,12 @@ function check
   ERRCOUNT=$(grep -ic " error " $LOG/out-$1.undeploy.log)
 
   printf "    %-30s | %-10s | %-20s\n" $1 "Undeploy" "$ERRCOUNT error(s)"
-  printf "    %-30s | %-10s | %-20s\n" $1 "Undeploy" "$ERRCOUNT error(s)" >> $REPORTS/deploy-report.log
+  printf "    %-30s | %-10s | %-20s\n" $1 "Undeploy" "$ERRCOUNT error(s)" >> $REPORT
   if [ "$ERRCOUNT" != 0 ]
   then
-    echo "" >> $REPORTS/deploy-report.log
-    grep -i -A 4 -B 2 " error " $LOG/out-$1.undeploy.log >> $REPORTS/deploy-report.log
-    echo -e "> ... see in file $LOG/out-$1.undeploy.log\n" >> $REPORTS/deploy-report.log
+    echo "" >> $REPORT
+    grep -i -A 4 -B 2 " error " $LOG/out-$1.undeploy.log >> $REPORT
+    echo -e "> ... see in file $LOG/out-$1.undeploy.log\n" >> $REPORT
   fi
   
   cd ..
@@ -71,13 +72,14 @@ echo "JBOSS: $JBOSS_PID"
 
 sleep 60
 
-echo -e "Deploy/Undeploy Report" >> $REPORTS/deploy-report.log
+echo -e "Deploy/Undeploy Report" >> $REPORT
 
 # Resources
-echo -e "\nRAs:\n" >> $REPORTS/deploy-report.log
+echo -e "\nRAs:\n" >> $REPORT
 
 # Diameter
 # Copy Diameter Mux sar to server/default/deploy
+echo -e "\nDeploy jDiameter Stack Mux\n" >> $REPORT
 cp -r $DIAMETER_STACK/mobicents-diameter-mux-*.sar $JBOSS_HOME/server/default/deploy
 sleep 15
 
@@ -112,6 +114,8 @@ check diameter-s6a deploy 15 undeploy 15
 check diameter-sh-client deploy 15 undeploy 15
 check diameter-sh-server deploy 15 undeploy 15
 
+echo -e "\nEnablers:\n" >> $REPORT
+
 cd $HOME/enablers
 check hss-client deploy-all 15 undeploy-all 15
 
@@ -120,15 +124,19 @@ ant -f diameter-base/build.xml undeploy
 sleep 15
 
 # Remove Diameter Mux sar from server/default/deploy
+echo -e "\nUndeploy jDiameter Stack Mux\n" >> $REPORT
 rm -rf $JBOSS_HOME/server/default/deploy/mobicents-diameter-mux-*.sar
 sleep 30
+
+echo -e "\nRAs:\n" >> $REPORT
 
 # SS7
 
 # Install jSS7 Stack
-#cd $SS7_STACK
-#ant deploy
-#sleep 15
+echo -e "\nDeploy jSS7 Stack\n" >> $REPORT
+cd $SS7_STACK
+ant deploy
+sleep 15
 
 cd $HOME/resources
 SS7_RA="map cap tcap isup"
@@ -137,21 +145,22 @@ do
   if [ $dir != "isup" ]
   then
     echo $dir
-    #check $dir deploy 15 undeploy 15
+    check $dir deploy 15 undeploy 15
   fi
 done
 
 # Uninstall jSS7 Stack
-#cd $SS7_STACK
-#ant undeploy
-#sleep 15
+echo "\nUndeploy jSS7 Stack\n" >> $REPORT
+cd $SS7_STACK
+ant undeploy
+sleep 15
 
 # Other
 # Start SMPP Server for SMPP RA
-#cd $HOME/test-tools/smpp-server
-#java -cp smpp.server-0.0.1-SNAPSHOT.jar:lib/* org.mobicents.tools.smpp.server.ServerSMPP 2775 > $LOG/smpp.server.log 2>&1 &
-#SMPPSERVER_PID=$!
-#echo "SMPP Server: $SMPPSERVER_PID"
+cd $HOME/test-tools/smpp-server
+java -cp smpp.server-0.0.1-SNAPSHOT.jar:lib/* org.mobicents.tools.smpp.server.ServerSMPP 2775 > $LOG/smpp.server.log 2>&1 &
+SMPPSERVER_PID=$!
+echo "SMPP Server: $SMPPSERVER_PID"
 
 cd $HOME/resources
 for dir in */
@@ -160,15 +169,15 @@ do
   if [ "$dir" == "${dir%diameter*}" ] && [ "${SS7_RA/$dir}" = "$SS7_RA" ]
   then
     echo "${dir} is not in Diameter and SS7"
-    #check $dir deploy 15 undeploy 15
+    check $dir deploy 15 undeploy 15
   fi
 done
 
 # Stop SMPP Server
-#kill -9 $SMPPSERVER_PID
+kill -9 $SMPPSERVER_PID
 
 # Examples
-echo -e "\nExamples:\n" >> $REPORTS/deploy-report.log
+echo -e "\nExamples:\n" >> $REPORT
 
 cd $HOME/examples
 for dir in */
@@ -177,21 +186,21 @@ do
   echo ${dir##*/}
   case $dir in
     call-controller2)
-      #check $dir deploy-all 15 undeploy-all 30
+      check $dir deploy-all 15 undeploy-all 30
       ;;
     slee-connectivity)
-      #check $dir deploy 15 undeploy 15
+      check $dir deploy 15 undeploy 15
       ;;
     google-talk-bot)
       ;;
     *)
-      #check $dir deploy-all 15 undeploy-all 15
+      check $dir deploy-all 15 undeploy-all 15
       ;;
   esac
 done
 
 # Enablers
-echo -e "\nEnablers:\n" >> $REPORTS/deploy-report.log
+echo -e "\nEnablers:\n" >> $REPORT
 
 cd $HOME/enablers
 for dir in */
@@ -200,7 +209,7 @@ do
   if [ $dir != "hss-client" ]
   then
     echo $dir
-    #check $dir deploy-all 15 undeploy-all 15
+    check $dir deploy-all 15 undeploy-all 15
   fi
 done
 
