@@ -74,15 +74,14 @@ sleep 60
 
 echo -e "Deploy/Undeploy Report" >> $REPORT
 
-# Resources
-echo -e "\nRAs:\n" >> $REPORT
-
 # Diameter
 # Copy Diameter Mux sar to server/default/deploy
-echo -e "\nDeploy jDiameter Stack Mux\n" >> $REPORT
+echo -e "Deploy jDiameter Stack Mux\n" >> $REPORT
 cp -r $DIAMETER_STACK/mobicents-diameter-mux-*.sar $JBOSS_HOME/server/default/deploy
 sleep 15
 
+# Resources
+echo -e "\nRAs:\n" >> $REPORT
 cd $HOME/resources
 
 #for dir in diameter*/
@@ -133,7 +132,7 @@ echo -e "\nRAs:\n" >> $REPORT
 # SS7
 
 # Install jSS7 Stack
-echo -e "\nDeploy jSS7 Stack\n" >> $REPORT
+echo -e "Deploy jSS7 Stack\n" >> $REPORT
 cd $SS7_STACK
 ant deploy
 sleep 15
@@ -150,7 +149,7 @@ do
 done
 
 # Uninstall jSS7 Stack
-echo "\nUndeploy jSS7 Stack\n" >> $REPORT
+echo -e "\nUndeploy jSS7 Stack\n" >> $REPORT
 cd $SS7_STACK
 ant undeploy
 sleep 15
