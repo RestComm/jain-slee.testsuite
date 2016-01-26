@@ -57,6 +57,7 @@ function check
 
 # Start JSLEE
 export JBOSS_HOME=$HOME/jboss-5.1.0.GA
+export DIAMETER_STACK=$HOME/extra/restcomm-diameter
 export SS7_STACK=$HOME/extra/mobicents-ss7/mobicents-jss7-*/ss7
 echo $JBOSS_HOME
 
@@ -68,7 +69,7 @@ $JBOSS_HOME/bin/run.sh > $LOG/deploy-jboss.log 2>&1 &
 JBOSS_PID="$!"
 echo "JBOSS: $JBOSS_PID"
 
-sleep 45
+sleep 60
 
 echo -e "Deploy/Undeploy Report" >> $REPORTS/deploy-report.log
 
@@ -76,19 +77,58 @@ echo -e "Deploy/Undeploy Report" >> $REPORTS/deploy-report.log
 echo -e "\nRAs:\n" >> $REPORTS/deploy-report.log
 
 # Diameter
+# Copy Diameter Mux sar to server/default/deploy
+cp -r $DIAMETER_STACK/mobicents-diameter-mux-*.sar $JBOSS_HOME/server/default/deploy
+sleep 15
+
 cd $HOME/resources
-for dir in diameter*/
-do
-  dir=${dir%*/}
-  echo ${dir##*/}
-done
+
+#for dir in diameter*/
+#do
+#  dir=${dir%*/}
+#  echo ${dir##*/}
+#done
+
+check diameter-base deploy 15 undeploy 15
+
+ant -f diameter-base/build.xml deploy
+sleep 15
+check diameter-cca deploy 15 undeploy 15
+
+ant -f diameter-cca/build.xml deploy
+sleep 15
+
+check diameter-gx deploy 15 undeploy 15
+check diameter-rx deploy 15 undeploy 15
+
+ant -f diameter-cca/build.xml undeploy
+sleep 15
+
+check diameter-cx-dx deploy 15 undeploy 15
+check diameter-gq deploy 15 undeploy 15
+check diameter-rf deploy 15 undeploy 15
+check diameter-ro deploy 15 undeploy 15
+check diameter-s6a deploy 15 undeploy 15
+check diameter-sh-client deploy 15 undeploy 15
+check diameter-sh-server deploy 15 undeploy 15
+
+cd $HOME/enablers
+check hss-client deploy-all 15 undeploy-all 15
+
+cd $HOME/resources
+ant -f diameter-base/build.xml undeploy
+sleep 15
+
+# Remove Diameter Mux sar from server/default/deploy
+rm -rf $JBOSS_HOME/server/default/deploy/mobicents-diameter-mux-*.sar
+sleep 30
 
 # SS7
 
 # Install jSS7 Stack
-cd $SS7_STACK
-ant deploy
-sleep 15
+#cd $SS7_STACK
+#ant deploy
+#sleep 15
 
 cd $HOME/resources
 SS7_RA="map cap tcap isup"
@@ -97,21 +137,21 @@ do
   if [ $dir != "isup" ]
   then
     echo $dir
-    check $dir deploy 10 undeploy 10
+    #check $dir deploy 15 undeploy 15
   fi
 done
 
 # Uninstall jSS7 Stack
-cd $SS7_STACK
-ant undeploy
-sleep 15
+#cd $SS7_STACK
+#ant undeploy
+#sleep 15
 
 # Other
 # Start SMPP Server for SMPP RA
-cd $HOME/test-tools/smpp-server
-java -cp smpp.server-0.0.1-SNAPSHOT.jar:lib/* org.mobicents.tools.smpp.server.ServerSMPP 2775 > $LOG/smpp.server.log 2>&1 &
-SMPPSERVER_PID=$!
-echo "SMPP Server: $SMPPSERVER_PID"
+#cd $HOME/test-tools/smpp-server
+#java -cp smpp.server-0.0.1-SNAPSHOT.jar:lib/* org.mobicents.tools.smpp.server.ServerSMPP 2775 > $LOG/smpp.server.log 2>&1 &
+#SMPPSERVER_PID=$!
+#echo "SMPP Server: $SMPPSERVER_PID"
 
 cd $HOME/resources
 for dir in */
@@ -120,12 +160,12 @@ do
   if [ "$dir" == "${dir%diameter*}" ] && [ "${SS7_RA/$dir}" = "$SS7_RA" ]
   then
     echo "${dir} is not in Diameter and SS7"
-    check $dir deploy 10 undeploy 10
+    #check $dir deploy 15 undeploy 15
   fi
 done
 
 # Stop SMPP Server
-kill -9 $SMPPSERVER_PID
+#kill -9 $SMPPSERVER_PID
 
 # Examples
 echo -e "\nExamples:\n" >> $REPORTS/deploy-report.log
@@ -137,15 +177,15 @@ do
   echo ${dir##*/}
   case $dir in
     call-controller2)
-      check $dir deploy-all 10 undeploy-all 20
+      #check $dir deploy-all 15 undeploy-all 30
       ;;
     slee-connectivity)
-      check $dir deploy 10 undeploy 10
+      #check $dir deploy 15 undeploy 15
       ;;
     google-talk-bot)
       ;;
     *)
-      check $dir deploy-all 10 undeploy-all 10
+      #check $dir deploy-all 15 undeploy-all 15
       ;;
   esac
 done
@@ -160,7 +200,7 @@ do
   if [ $dir != "hss-client" ]
   then
     echo $dir
-    check $dir deploy-all 10 undeploy-all 10
+    #check $dir deploy-all 15 undeploy-all 15
   fi
 done
 
