@@ -10,6 +10,7 @@ export JAVA_OPTS="-Xms1024m -Xmx1024m -XX:PermSize=128M -XX:MaxPermSize=256M -XX
 
 export SIPP=$JSLEE/test-tools/sipp/sipp
 export LBTEST=$JSLEE/test-tools/load-balancer
+echo $LBTEST
 
 ./lb-test-prepare.sh uas
-./lb-test-uas-perf.sh
+#./lb-test-uas-perf.sh

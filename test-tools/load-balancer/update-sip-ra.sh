@@ -14,12 +14,12 @@ cd $NODE1/deploy
 unzip -q $SIP11RA.jar -d $SIP11RA
 rm -f $SIP11RA.jar
 
-#echo "2"
+echo "2"
 cd $SIP11RA/META-INF
 rm deploy-config.xml
 cp $TEST/$2 deploy-config.xml
 
-#echo "3"
+echo "3"
 cd $NODE1/deploy/$SIP11RA
 zip -qr ../$SIP11RA.jar *
 cd ..
