@@ -16,8 +16,8 @@ mkdir -p $REPORTS
 
 echo -e "SLEE Connectivity Report\n" >> $REPORT
 
-echo -e "\nColocated test"
-./connect-test-colocated.sh
+#echo -e "\nColocated test"
+#./connect-test-colocated.sh
 
 sleep 10
 echo -e "\nSeparate test"

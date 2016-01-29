@@ -3,7 +3,7 @@
 # Separate Test
 
 wget -nc -q -o /dev/null -P$JSLEE_RELEASE http://freefr.dl.sourceforge.net/project/jboss/JBoss/JBoss-5.1.0.GA/jboss-5.1.0.GA-jdk6.zip
-unzip -q $JSLEE_RELEASE/jboss-5.1.0.GA-jdk6.zip
+unzip -q $JSLEE_RELEASE/jboss-5.1.0.GA-jdk6.zip -d $JSLEE_RELEASE
 
 export JBOSSJSLEE_HOME=$JSLEE_HOME/jboss-5.1.0.GA
 echo "JBoss/JSLEE: $JBOSSJSLEE_HOME"
