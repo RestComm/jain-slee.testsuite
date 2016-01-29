@@ -16,7 +16,7 @@ $JBOSS_HOME/bin/run.sh > $LOG/connect-jboss.log 2>&1 &
 JBOSSJSLEE_PID="$!"
 echo "JBoss/JSLEE PID: $JBOSSJSLEE_PID"
 
-sleep 5
+sleep 10
 
 # JBoss on default with ports-01
 export JBOSS_HOME=$JBOSSAS_HOME
@@ -24,7 +24,7 @@ $JBOSS_HOME/bin/run.sh -Djboss.service.binding.set=ports-01 -Djboss.messaging.Se
 JBOSSAS_PID="$!"
 echo "JBoss AS PID: $JBOSSAS_PID"
 
-sleep 30
+sleep 60
 
 # Deploy to JBoss/JSLEE
 echo -e "\nDeploy SLEE Connectivity Example\n"
@@ -33,13 +33,13 @@ cp $LOG/connect-jboss.log $LOG/connect-jboss-0.log
 #cd $JSLEE_HOME/examples/slee-connectivity
 #ant deploy
 cp $JSLEE_HOME/examples/slee-connectivity/mobicents-slee-connectivity-example-slee-DU-*.jar $JBOSSJSLEE_HOME/server/default/deploy
-sleep 5
+sleep 10
 
 # Deploy to JBoss AS
 cp -r $JSLEE_HOME/tools/remote-slee-connection/mobicents-slee-remote-connection.rar $JBOSSAS_HOME/server/default/deploy
-sleep 5
+sleep 10
 cp -r $JSLEE_HOME/examples/slee-connectivity/mobicents-slee-connectivity-example-javaee-beans $JBOSSAS_HOME/server/default/deploy
-sleep 5
+sleep 10
 
 diff $LOG/connect-jboss-0.log $LOG/connect-jboss.log > $LOG/connect-separate-deploy.log
 # grep error
@@ -54,14 +54,14 @@ then
   echo -e "> ... see in file $LOG/connect-separate-deploy.log\n" >> $REPORT
 fi
 
-sleep 5
+sleep 10
 
 # Separate Test
 cp $LOG/connect-jboss.log $LOG/connect-jboss-1.log
 
-echo "Execute: twiddle.sh invoke org.mobicents.slee:name=SleeConnectivityExample fireEvent helloworld"
+echo "Execute: twiddle.sh -s localhost:1199 invoke org.mobicents.slee:name=SleeConnectivityExample fireEvent helloworld"
 sh $JBOSSAS_HOME/bin/twiddle.sh -s localhost:1199 invoke org.mobicents.slee:name=SleeConnectivityExample fireEvent helloworld
-sleep 10
+sleep 20
 
 diff $LOG/connect-jboss-1.log $LOG/connect-jboss.log > $LOG/connect-separate.log
 
@@ -86,20 +86,20 @@ else
   fi
 fi
 
-sleep 10
+sleep 20
 
 # Undeploy from JBoss AS
 echo -e "\nUndeploy SLEE Connectivity Example\n"
 cp $LOG/connect-jboss.log $LOG/connect-jboss-2.log
 
 rm -r $JBOSSAS_HOME/server/default/deploy/mobicents-slee-connectivity-example-javaee-beans
-sleep 5
+sleep 10
 rm -r $JBOSSAS_HOME/server/default/deploy/mobicents-slee-remote-connection.rar
-sleep 5
+sleep 10
 
 # Undeploy from JBoss/JSLEE
 rm $JBOSSJSLEE_HOME/server/default/deploy/mobicents-slee-connectivity-example-slee-DU-*.jar
-sleep 10
+sleep 20
 
 diff $LOG/connect-jboss-2.log $LOG/connect-jboss.log > $LOG/connect-separate-undeploy.log
 # grep error
@@ -113,8 +113,8 @@ fi
 
 pkill -TERM -P $JBOSSJSLEE_PID
 pkill -TERM -P $JBOSSAS_PID
-sleep 30
+sleep 60
 
 rm -f $JSLEE_RELEASE/jboss-5.1.0.GA-jdk6.zip
 rm -rf $JSLEE_RELEASE/jboss-5.1.0.GA
-sleep 10
+sleep 20
