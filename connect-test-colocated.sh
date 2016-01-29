@@ -6,7 +6,7 @@ export JBOSS_HOME=$JSLEE_HOME/jboss-5.1.0.GA
 echo $JBOSS_HOME
 
 # Start JSLEE
-$JBOSS_HOME/bin/run.sh > $LOG/connect-jboss.log 2>&1 &
+$JBOSS_HOME/bin/run.sh > $LOG/connect-colocated-jboss.log 2>&1 &
 JBOSS_PID="$!"
 echo "JBOSS: $JBOSS_PID"
 
@@ -14,13 +14,13 @@ sleep 60
 
 # Deploy
 echo -e "\nDeploy SLEE Connectivity Example\n"
-cp $LOG/connect-jboss.log $LOG/connect-jboss-0.log
+cp $LOG/connect-colocated-jboss.log $LOG/connect-colocated-jboss-0.log
 
 cd $JSLEE_HOME/examples/slee-connectivity
 ant deploy
 sleep 10
 
-diff $LOG/connect-jboss-0.log $LOG/connect-jboss.log > $LOG/connect-colocated-deploy.log
+diff $LOG/connect-colocated-jboss-0.log $LOG/connect-colocated-jboss.log > $LOG/connect-colocated-deploy.log
 # grep error
 ERRCOUNT=$(grep -c " ERROR " $LOG/connect-colocated-deploy.log)
 if [ "$ERRCOUNT" != 0 ]
@@ -35,13 +35,13 @@ fi
 
 
 # Colocated Test
-cp $LOG/connect-jboss.log $LOG/connect-jboss-1.log
+cp $LOG/connect-jboss.log $LOG/connect-colocated-jboss-1.log
 
 echo "Execute: twiddle.sh -s localhost:1099 invoke org.mobicents.slee:name=SleeConnectivityExample fireEvent helloworld"
 sh $JBOSS_HOME/bin/twiddle.sh -s localhost:1099 invoke org.mobicents.slee:name=SleeConnectivityExample fireEvent helloworld
 sleep 10
 
-diff $LOG/connect-jboss-1.log $LOG/connect-jboss.log > $LOG/connect-colocated.log
+diff $LOG/connect-colocated-jboss-1.log $LOG/connect-colocated-jboss.log > $LOG/connect-colocated.log
 
 # grep error
 ERRCOUNT=$(grep -c " ERROR " $LOG/connect-colocated.log)
@@ -66,13 +66,13 @@ fi
 
 # Undeploy
 echo -e "\nUndeploy SLEE Connectivity Example\n"
-cp $LOG/connect-jboss.log $LOG/connect-jboss-2.log
+cp $LOG/connect-jboss.log $LOG/connect-colocated-jboss-2.log
 
 cd $JSLEE_HOME/examples/slee-connectivity
 ant undeploy
 sleep 10
 
-diff $LOG/connect-jboss-2.log $LOG/connect-jboss.log > $LOG/connect-colocated-undeploy.log
+diff $LOG/connect-colocated-jboss-2.log $LOG/connect-colocated-jboss.log > $LOG/connect-colocated-undeploy.log
 # grep error
 ERRCOUNT=$(grep -c " ERROR " $LOG/connect-colocated-undeploy.log)
 if [ "$ERRCOUNT" != 0 ]

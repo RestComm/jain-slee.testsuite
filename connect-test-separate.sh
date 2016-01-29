@@ -12,7 +12,7 @@ echo "JBoss AS: $JBOSSAS_HOME"
 
 # JBoss/JSLEE on default
 export JBOSS_HOME=$JBOSSJSLEE_HOME
-$JBOSS_HOME/bin/run.sh > $LOG/connect-jboss.log 2>&1 &
+$JBOSS_HOME/bin/run.sh > $LOG/connect-separate-jboss.log 2>&1 &
 JBOSSJSLEE_PID="$!"
 echo "JBoss/JSLEE PID: $JBOSSJSLEE_PID"
 
@@ -20,7 +20,7 @@ sleep 10
 
 # JBoss on default with ports-01
 export JBOSS_HOME=$JBOSSAS_HOME
-$JBOSS_HOME/bin/run.sh -Djboss.service.binding.set=ports-01 -Djboss.messaging.ServerPeerID=0 -Dsession.serialization.jboss=false > $LOG/connect-jboss-as.log 2>&1 &
+$JBOSS_HOME/bin/run.sh -Djboss.service.binding.set=ports-01 -Djboss.messaging.ServerPeerID=0 -Dsession.serialization.jboss=false > $LOG/connect-separate-as-jboss.log 2>&1 &
 JBOSSAS_PID="$!"
 echo "JBoss AS PID: $JBOSSAS_PID"
 
@@ -28,7 +28,8 @@ sleep 60
 
 # Deploy to JBoss/JSLEE
 echo -e "\nDeploy SLEE Connectivity Example\n"
-cp $LOG/connect-jboss.log $LOG/connect-jboss-0.log
+cp $LOG/connect-separate-jboss.log $LOG/connect-separate-jboss-0.log
+cp $LOG/connect-separate-as-jboss.log $LOG/connect-separate-as-jboss-0.log
 
 #cd $JSLEE_HOME/examples/slee-connectivity
 #ant deploy
@@ -41,7 +42,8 @@ sleep 10
 cp -r $JSLEE_HOME/examples/slee-connectivity/mobicents-slee-connectivity-example-javaee-beans $JBOSSAS_HOME/server/default/deploy
 sleep 10
 
-diff $LOG/connect-jboss-0.log $LOG/connect-jboss.log > $LOG/connect-separate-deploy.log
+diff $LOG/connect-separate-jboss-0.log $LOG/connect-separate-jboss.log > $LOG/connect-separate-deploy.log
+diff $LOG/connect-separate-as-jboss-0.log $LOG/connect-separate-jboss.log >> $LOG/connect-separate-deploy.log
 # grep error
 ERRCOUNT=$(grep -c " ERROR " $LOG/connect-separate-deploy.log)
 if [ "$ERRCOUNT" != 0 ]
@@ -57,13 +59,13 @@ fi
 sleep 10
 
 # Separate Test
-cp $LOG/connect-jboss.log $LOG/connect-jboss-1.log
+cp $LOG/connect-separate-jboss.log $LOG/connect-separate-jboss-1.log
 
 echo "Execute: twiddle.sh -s localhost:1199 invoke org.mobicents.slee:name=SleeConnectivityExample fireEvent helloworld"
 sh $JBOSSAS_HOME/bin/twiddle.sh -s localhost:1199 invoke org.mobicents.slee:name=SleeConnectivityExample fireEvent helloworld
 sleep 20
 
-diff $LOG/connect-jboss-1.log $LOG/connect-jboss.log > $LOG/connect-separate.log
+diff $LOG/connect-separate-jboss-1.log $LOG/connect-separate-jboss.log > $LOG/connect-separate.log
 
 # grep error
 ERRCOUNT=$(grep -c " ERROR " $LOG/connect-separate.log)
@@ -90,7 +92,8 @@ sleep 20
 
 # Undeploy from JBoss AS
 echo -e "\nUndeploy SLEE Connectivity Example\n"
-cp $LOG/connect-jboss.log $LOG/connect-jboss-2.log
+cp $LOG/connect-separate-jboss.log $LOG/connect-separate-jboss-2.log
+cp $LOG/connect-separate-as-jboss.log $LOG/connect-separate-as-jboss-2.log
 
 rm -r $JBOSSAS_HOME/server/default/deploy/mobicents-slee-connectivity-example-javaee-beans
 sleep 10
@@ -101,7 +104,8 @@ sleep 10
 rm $JBOSSJSLEE_HOME/server/default/deploy/mobicents-slee-connectivity-example-slee-DU-*.jar
 sleep 20
 
-diff $LOG/connect-jboss-2.log $LOG/connect-jboss.log > $LOG/connect-separate-undeploy.log
+diff $LOG/connect-separate-jboss-2.log $LOG/connect-separate-jboss.log > $LOG/connect-separate-undeploy.log
+diff $LOG/connect-separate-as-jboss-2.log $LOG/connect-separate-as-jboss.log >> $LOG/connect-separate-undeploy.log
 # grep error
 ERRCOUNT=$(grep -c " ERROR " $LOG/connect-separate-undeploy.log)
 if [ "$ERRCOUNT" != 0 ]
