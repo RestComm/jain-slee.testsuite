@@ -1,14 +1,13 @@
 #!/bin/bash
 
 export HOME=$PWD
-echo $JSLEE_RELEASE
-
 export LOG=$HOME/test-logs
 export REPORTS=$HOME/test-reports
 export REPORT=$REPORTS/connect-report.log
 
-export UPHOME="$(dirname "$HOME")"
-wget -P$UPHOME http://freefr.dl.sourceforge.net/project/jboss/JBoss/JBoss-5.1.0.GA/jboss-5.1.0.GA-jdk6.zip
+#export UPHOME="$(dirname "$HOME")"
+echo $JSLEE_RELEASE
+wget -q -o /dev/null -P$JSLEE_RELEASE http://freefr.dl.sourceforge.net/project/jboss/JBoss/JBoss-5.1.0.GA/jboss-5.1.0.GA-jdk6.zip
 exit
 
 export JBOSS_HOME=$HOME/jboss-5.1.0.GA
