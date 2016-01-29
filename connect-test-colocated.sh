@@ -35,7 +35,7 @@ fi
 
 
 # Colocated Test
-cp $LOG/connect-jboss.log $LOG/connect-colocated-jboss-1.log
+cp $LOG/connect-colocated-jboss.log $LOG/connect-colocated-jboss-1.log
 
 echo "Execute: twiddle.sh -s localhost:1099 invoke org.mobicents.slee:name=SleeConnectivityExample fireEvent helloworld"
 sh $JBOSS_HOME/bin/twiddle.sh -s localhost:1099 invoke org.mobicents.slee:name=SleeConnectivityExample fireEvent helloworld
@@ -66,7 +66,7 @@ fi
 
 # Undeploy
 echo -e "\nUndeploy SLEE Connectivity Example\n"
-cp $LOG/connect-jboss.log $LOG/connect-colocated-jboss-2.log
+cp $LOG/connect-colocated-jboss.log $LOG/connect-colocated-jboss-2.log
 
 cd $JSLEE_HOME/examples/slee-connectivity
 ant undeploy
