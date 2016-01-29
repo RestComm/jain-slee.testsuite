@@ -43,7 +43,7 @@ cp -r $JSLEE_HOME/examples/slee-connectivity/mobicents-slee-connectivity-example
 sleep 10
 
 diff $LOG/connect-separate-jboss-0.log $LOG/connect-separate-jboss.log > $LOG/connect-separate-deploy.log
-diff $LOG/connect-separate-as-jboss-0.log $LOG/connect-separate-jboss.log >> $LOG/connect-separate-deploy.log
+diff $LOG/connect-separate-as-jboss-0.log $LOG/connect-separate-as-jboss.log >> $LOG/connect-separate-deploy.log
 # grep error
 ERRCOUNT=$(grep -c " ERROR " $LOG/connect-separate-deploy.log)
 if [ "$ERRCOUNT" != 0 ]
