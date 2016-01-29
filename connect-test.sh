@@ -1,16 +1,16 @@
 #!/bin/bash
 
-export HOME=$PWD
-export LOG=$HOME/test-logs
-export REPORTS=$HOME/test-reports
+#export HOME=$PWD
+export LOG=$JSLEE_HOME/test-logs
+export REPORTS=$JSLEE_HOME/test-reports
 export REPORT=$REPORTS/connect-report.log
 
 #export UPHOME="$(dirname "$HOME")"
 echo $JSLEE_RELEASE
-wget -q -o /dev/null -P$JSLEE_RELEASE http://freefr.dl.sourceforge.net/project/jboss/JBoss/JBoss-5.1.0.GA/jboss-5.1.0.GA-jdk6.zip
-exit
+rm $JSLEE_RELEASE/jboss*.*
+wget -P$JSLEE_RELEASE -nc -q -o /dev/null http://freefr.dl.sourceforge.net/project/jboss/JBoss/JBoss-5.1.0.GA/jboss-5.1.0.GA-jdk6.zip
 
-export JBOSS_HOME=$HOME/jboss-5.1.0.GA
+export JBOSS_HOME=$JSLEE_HOME/jboss-5.1.0.GA
 echo $JBOSS_HOME
 
 rm -rf $LOG/*
@@ -33,7 +33,7 @@ echo -e "SLEE Connectivity Report\n" >> $REPORT
 echo -e "\nDeploy SLEE Connectivity Example\n"
 cp $LOG/connect-jboss.log $LOG/connect-jboss-0.log
 
-cd $HOME/examples/slee-connectivity
+cd $JSLEE_HOME/examples/slee-connectivity
 ant deploy
 sleep 5
 
@@ -84,7 +84,7 @@ fi
 echo -e "\nUndeploy SLEE Connectivity Example\n"
 cp $LOG/connect-jboss.log $LOG/connect-jboss-2.log
 
-cd $HOME/examples/slee-connectivity
+cd $JSLEE_HOME/examples/slee-connectivity
 ant undeploy
 sleep 5
 
