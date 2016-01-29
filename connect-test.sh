@@ -23,7 +23,7 @@ $JBOSS_HOME/bin/run.sh > $LOG/connect-jboss.log 2>&1 &
 JBOSS_PID="$!"
 echo "JBOSS: $JBOSS_PID"
 
-sleep 20
+sleep 60
 
 echo -e "SLEE Connectivity Report\n" >> $REPORT
 
@@ -35,7 +35,7 @@ cp $LOG/connect-jboss.log $LOG/connect-jboss-0.log
 
 cd $JSLEE_HOME/examples/slee-connectivity
 ant deploy
-sleep 5
+sleep 10
 
 diff $LOG/connect-jboss-0.log $LOG/connect-jboss.log > $LOG/connect-deploy.log
 # grep error
@@ -55,7 +55,7 @@ fi
 cp $LOG/connect-jboss.log $LOG/connect-jboss-1.log
 
 sh $JBOSS_HOME/bin/twiddle.sh invoke org.mobicents.slee:name=SleeConnectivityExample fireEvent helloworld
-sleep 5
+sleep 10
 
 diff $LOG/connect-jboss-1.log $LOG/connect-jboss.log > $LOG/connect-colocated.log
 
@@ -86,7 +86,7 @@ cp $LOG/connect-jboss.log $LOG/connect-jboss-2.log
 
 cd $JSLEE_HOME/examples/slee-connectivity
 ant undeploy
-sleep 5
+sleep 10
 
 diff $LOG/connect-jboss-2.log $LOG/connect-jboss.log > $LOG/connect-undeploy.log
 # grep error
@@ -99,17 +99,17 @@ then
 fi
 
 pkill -TERM -P $JBOSS_PID
-sleep 10
+sleep 15
 
 #rm -f $LOG/out-*-0.log
 #rm -f $LOG/out-*-1.log
 
 # JBoss/JSLEE on default
-$JBOSS_HOME/bin/run.sh > $LOG/connect-jboss.log 2>&1 &
-JBOSS_PID="$!"
-echo "JBOSS: $JBOSS_PID"
+#$JBOSS_HOME/bin/run.sh > $LOG/connect-jboss.log 2>&1 &
+#JBOSS_PID="$!"
+#echo "JBOSS: $JBOSS_PID"
 
-sleep 20
+#sleep 60
 
 #
 
@@ -118,4 +118,4 @@ sleep 20
 #
 
 
-pkill -TERM -P $JBOSS_PID
+#pkill -TERM -P $JBOSS_PID
