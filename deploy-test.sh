@@ -59,7 +59,7 @@ function check
 # Start JSLEE
 export JBOSS_HOME=$HOME/jboss-5.1.0.GA
 export DIAMETER_STACK=$HOME/extra/restcomm-diameter
-export SS7_STACK=$HOME/extra/mobicents-ss7/mobicents-jss7-*/ss7
+export SS7_STACK=$HOME/extra/restcomm-ss7/restcomm-jss7-*/ss7
 echo $JBOSS_HOME
 
 rm -rf $LOG/*
@@ -77,7 +77,7 @@ echo -e "Deploy/Undeploy Report" >> $REPORT
 # Diameter
 # Copy Diameter Mux sar to server/default/deploy
 echo -e "Deploy jDiameter Stack Mux\n" >> $REPORT
-cp -r $DIAMETER_STACK/mobicents-diameter-mux-*.sar $JBOSS_HOME/server/default/deploy
+cp -r $DIAMETER_STACK/restcomm-diameter-mux-*.sar $JBOSS_HOME/server/default/deploy
 sleep 15
 
 # Resources
@@ -124,7 +124,7 @@ sleep 15
 
 # Remove Diameter Mux sar from server/default/deploy
 echo -e "\nUndeploy jDiameter Stack Mux\n" >> $REPORT
-rm -rf $JBOSS_HOME/server/default/deploy/mobicents-diameter-mux-*.sar
+rm -rf $JBOSS_HOME/server/default/deploy/restcomm-diameter-mux-*.sar
 sleep 30
 
 echo -e "\nRAs:\n" >> $REPORT

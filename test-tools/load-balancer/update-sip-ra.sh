@@ -2,7 +2,7 @@
 # $1 - path to Node
 # $2 - new deploy-config.xml
 
-export NODE1=$1 #/opt/mobicents/mobicents-slee-2.8.14.40/jboss-5.1.0.GA/server/port-1
+export NODE1=$1 #/opt/restcomm/restcomm-slee-2.8.14.40/jboss-5.1.0.GA/server/port-1
 
 export SIP11RAPATH=$NODE1/deploy/sip11-ra-DU-*.jar
 export SIP11RA=$(basename $SIP11RAPATH)

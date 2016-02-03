@@ -33,13 +33,13 @@ cp $LOG/connect-separate-as-jboss.log $LOG/connect-separate-as-jboss-0.log
 
 #cd $JSLEE_HOME/examples/slee-connectivity
 #ant deploy
-cp $JSLEE_HOME/examples/slee-connectivity/mobicents-slee-connectivity-example-slee-DU-*.jar $JBOSSJSLEE_HOME/server/default/deploy
+cp $JSLEE_HOME/examples/slee-connectivity/restcomm-slee-connectivity-example-slee-DU-*.jar $JBOSSJSLEE_HOME/server/default/deploy
 sleep 10
 
 # Deploy to JBoss AS
-cp -r $JSLEE_HOME/tools/remote-slee-connection/mobicents-slee-remote-connection.rar $JBOSSAS_HOME/server/default/deploy
+cp -r $JSLEE_HOME/tools/remote-slee-connection/restcomm-slee-remote-connection.rar $JBOSSAS_HOME/server/default/deploy
 sleep 10
-cp -r $JSLEE_HOME/examples/slee-connectivity/mobicents-slee-connectivity-example-javaee-beans $JBOSSAS_HOME/server/default/deploy
+cp -r $JSLEE_HOME/examples/slee-connectivity/restcomm-slee-connectivity-example-javaee-beans $JBOSSAS_HOME/server/default/deploy
 sleep 10
 
 diff $LOG/connect-separate-jboss-0.log $LOG/connect-separate-jboss.log > $LOG/connect-separate-deploy.log
@@ -95,13 +95,13 @@ echo -e "\nUndeploy SLEE Connectivity Example\n"
 cp $LOG/connect-separate-jboss.log $LOG/connect-separate-jboss-2.log
 cp $LOG/connect-separate-as-jboss.log $LOG/connect-separate-as-jboss-2.log
 
-rm -r $JBOSSAS_HOME/server/default/deploy/mobicents-slee-connectivity-example-javaee-beans
+rm -r $JBOSSAS_HOME/server/default/deploy/restcomm-slee-connectivity-example-javaee-beans
 sleep 10
-rm -r $JBOSSAS_HOME/server/default/deploy/mobicents-slee-remote-connection.rar
+rm -r $JBOSSAS_HOME/server/default/deploy/restcomm-slee-remote-connection.rar
 sleep 10
 
 # Undeploy from JBoss/JSLEE
-rm $JBOSSJSLEE_HOME/server/default/deploy/mobicents-slee-connectivity-example-slee-DU-*.jar
+rm $JBOSSJSLEE_HOME/server/default/deploy/restcomm-slee-connectivity-example-slee-DU-*.jar
 sleep 20
 
 diff $LOG/connect-separate-jboss-2.log $LOG/connect-separate-jboss.log > $LOG/connect-separate-undeploy.log

@@ -1,15 +1,15 @@
 #!/bin/bash
-#export JSLEE=/opt/mobicents/mobicents-slee-2.8.14.40
+#export JSLEE=/opt/restcomm/restcomm-slee-2.8.14.40
 #export JBOSS_HOME=$JSLEE/jboss-5.1.0.GA
 #export JAVA_OPTS="-Xms1024m -Xmx1024m -XX:PermSize=128M -XX:MaxPermSize=256M -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode"
 #export SIPP=$PWD/sipp
 
-#export LB_VERSION=2.0.17
+export LB_VERSION=2.0.19
 rm -rf logs
 mkdir logs
 
 #export JAVA_OPTS="-Xms2048m -Xmx2048m -XX:PermSize=512M -XX:MaxPermSize=1024M -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.local.only=false"
-java $JAVA_OPTS -DlogConfigFile=$LBTEST/lb-log4j.xml -jar $LOADBALANCER/sip-balancer-jar-*-jar-with-dependencies.jar -mobicents-balancer-config=$LBTEST/lb-configuration.properties &
+java $JAVA_OPTS -DlogConfigFile=$LBTEST/lb-log4j.xml -jar $LOADBALANCER/sip-balancer-jar-$LB_VERSION-jar-with-dependencies.jar -restcomm-balancer-config=$LBTEST/lb-configuration.properties &
 export LB_PID="$!"
 echo "Load Balancer: $LB_PID"
 
