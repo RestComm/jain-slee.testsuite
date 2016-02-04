@@ -1,9 +1,10 @@
 #!/bin/bash
 
-export HOME=$PWD
-export LOG=$HOME/test-logs
-export REPORTS=$HOME/test-reports
+export JSLEE_HOME=$PWD
+export LOG=$JSLEE_HOME/test-logs
+export REPORTS=$JSLEE_HOME/test-reports
 export REPORT=$REPORTS/deploy-report.log
+export DEPLOY_ERRCOUNT=0
 
 function check
 {
@@ -25,6 +26,7 @@ function check
     PERSISTENCE_ERRCOUNT=$(grep -ic "Container is providing a null PersistenceUnitRootUrl" $LOG/out-$1.deploy.log)
     ERRCOUNT=$((ERRCOUNT-PERSISTENCE_ERRCOUNT))
   fi
+  DEPLOY_ERRCOUNT=$((DEPLOY_ERRCOUNT+ERRCOUNT))
 
   printf "    %-30s | %-10s | %-20s\n" $1 "Deploy" "$ERRCOUNT error(s)"
   printf "    %-30s | %-10s | %-20s\n" $1 "Deploy" "$ERRCOUNT error(s)" >> $REPORT
@@ -43,7 +45,8 @@ function check
   
   # grep error
   ERRCOUNT=$(grep -ic " error " $LOG/out-$1.undeploy.log)
-
+  DEPLOY_ERRCOUNT=$((DEPLOY_ERRCOUNT+ERRCOUNT))
+  
   printf "    %-30s | %-10s | %-20s\n" $1 "Undeploy" "$ERRCOUNT error(s)"
   printf "    %-30s | %-10s | %-20s\n" $1 "Undeploy" "$ERRCOUNT error(s)" >> $REPORT
   if [ "$ERRCOUNT" != 0 ]
@@ -57,32 +60,33 @@ function check
 }
 
 # Start JSLEE
-export JBOSS_HOME=$HOME/jboss-5.1.0.GA
-export DIAMETER_STACK=$HOME/extra/restcomm-diameter
-export SS7_STACK=$HOME/extra/restcomm-ss7/restcomm-jss7-*/ss7
+export JBOSS_HOME=$JSLEE_HOME/jboss-5.1.0.GA
+export DIAMETER_STACK=$JSLEE_HOME/extra/restcomm-diameter
+export SS7_STACK=$JSLEE_HOME/extra/restcomm-ss7/mobicents-jss7-*/ss7
 echo $JBOSS_HOME
 
-rm -rf $LOG/*
-rm -rf $REPORTS/*
-mkdir -p $LOG
-mkdir -p $REPORTS
+#rm -rf $LOG/*
+#rm -rf $REPORTS/*
+#mkdir -p $LOG
+#mkdir -p $REPORTS
+
 $JBOSS_HOME/bin/run.sh > $LOG/deploy-jboss.log 2>&1 &
 JBOSS_PID="$!"
 echo "JBOSS: $JBOSS_PID"
 
 sleep 60
 
-echo -e "Deploy/Undeploy Report" >> $REPORT
+echo -e "Deploy/Undeploy Report\n" >> $REPORT
 
 # Diameter
 # Copy Diameter Mux sar to server/default/deploy
-echo -e "Deploy jDiameter Stack Mux\n" >> $REPORT
-cp -r $DIAMETER_STACK/restcomm-diameter-mux-*.sar $JBOSS_HOME/server/default/deploy
+echo -e "Deploy jDiameter Stack Mux" >> $REPORT
+cp -r $DIAMETER_STACK/mobicents-diameter-mux-*.sar $JBOSS_HOME/server/default/deploy
 sleep 15
 
 # Resources
 echo -e "\nRAs:\n" >> $REPORT
-cd $HOME/resources
+cd $JSLEE_HOME/resources
 
 #for dir in diameter*/
 #do
@@ -115,18 +119,19 @@ check diameter-sh-server deploy 15 undeploy 15
 
 echo -e "\nEnablers:\n" >> $REPORT
 
-cd $HOME/enablers
+cd $JSLEE_HOME/enablers
 check hss-client deploy-all 15 undeploy-all 15
 
-cd $HOME/resources
+cd $JSLEE_HOME/resources
 ant -f diameter-base/build.xml undeploy
 sleep 15
 
 # Remove Diameter Mux sar from server/default/deploy
 echo -e "\nUndeploy jDiameter Stack Mux\n" >> $REPORT
-rm -rf $JBOSS_HOME/server/default/deploy/restcomm-diameter-mux-*.sar
+rm -rf $JBOSS_HOME/server/default/deploy/mobicents-diameter-mux-*.sar
 sleep 30
 
+#
 echo -e "\nRAs:\n" >> $REPORT
 
 # SS7
@@ -137,7 +142,7 @@ cd $SS7_STACK
 ant deploy
 sleep 15
 
-cd $HOME/resources
+cd $JSLEE_HOME/resources
 SS7_RA="map cap tcap isup"
 for dir in $SS7_RA
 do
@@ -156,12 +161,12 @@ sleep 15
 
 # Other
 # Start SMPP Server for SMPP RA
-cd $HOME/test-tools/smpp-server
+cd $JSLEE_HOME/test-tools/smpp-server
 java -cp smpp.server-0.0.1-SNAPSHOT.jar:lib/* org.mobicents.tools.smpp.server.ServerSMPP 2775 > $LOG/smpp.server.log 2>&1 &
 SMPPSERVER_PID=$!
 echo "SMPP Server: $SMPPSERVER_PID"
 
-cd $HOME/resources
+cd $JSLEE_HOME/resources
 for dir in */
 do
   dir=${dir%*/}
@@ -178,7 +183,7 @@ kill -9 $SMPPSERVER_PID
 # Examples
 echo -e "\nExamples:\n" >> $REPORT
 
-cd $HOME/examples
+cd $JSLEE_HOME/examples
 for dir in */
 do
   dir=${dir%*/}
@@ -201,7 +206,7 @@ done
 # Enablers
 echo -e "\nEnablers:\n" >> $REPORT
 
-cd $HOME/enablers
+cd $JSLEE_HOME/enablers
 for dir in */
 do
   dir=${dir%*/}
@@ -211,6 +216,12 @@ do
     check $dir deploy-all 15 undeploy-all 15
   fi
 done
+
+echo -e "\nCommon result:  $DEPLOY_ERRCOUNT error(s)\n" >> $REPORT
+if [ "$DEPLOY_ERRCOUNT" == 0 ]
+then
+  export DEPLOY_SUCCESS=true
+fi
 
 # Tools
 

@@ -4,14 +4,17 @@
 
 # Deploy
 echo -e "\nDeploy SIP UAS Example\n"
-cd $HOME/examples/sip-uas
+cd $JSLEE_HOME/examples/sip-uas
 ant deploy-all
 sleep 10
 
 echo -e "\nTesting SIP UAS Example"
 
 echo -e "\nStart Single Test\n"
+# error handling
+cp $LOG/siptests-jboss.log $LOG/out-uas-0.log
 cd sipp
+
 $SIPP 127.0.0.1:5060 -inf users.csv -trace_err -sf uac.xml -i 127.0.0.1 -p 5050 -r 1 -m 10 -l 100 -bg
 
 UAC_PID=$(ps aux | grep '[u]ac.xml' | awk '{print $2}')
@@ -31,7 +34,24 @@ SIP_UAS_EXIT=$?
 echo -e "SIP UAS Simple Test result: $SIP_UAS_EXIT for $TIME seconds\n" >> $REPORT
 echo -e "\nFinish Single test"
 
+
+# error handling
+diff $LOG/out-uas-0.log $LOG/siptests-jboss.log > $LOG/out-uas.simple.log
+ERRCOUNT=$(grep -ic " error " $LOG/out-uas.simple.log)
+SIP_ERRCOUNT=$((SIP_ERRCOUNT+ERRCOUNT))
+if [ "$ERRCOUNT" != 0 ]; then
+  echo -e "    There are $ERRCOUNT errors. See ERRORs in test-logs/out-uas.simple.log\n" >> $REPORT
+else
+  echo "Nothing"
+  #rm -f $LOG/out-uas.simple.log
+fi
+# error handling
+
+
 echo -e "\nStart Performance Test\n"
+# error handling
+cp $LOG/siptests-jboss.log $LOG/out-uas-1.log
+
 $SIPP 127.0.0.1:5060 -inf users.csv -trace_err -sf uac.xml -i 127.0.0.1 -p 5050 -r 1000 -rp 90s -m 1200 -l 1000 -bg
 #$SIPP 127.0.0.1:5060 -inf users.csv -trace_err -sf uac.xml -i 127.0.0.1 -p 5050 -r 50 -m 1200 -l 1000 -bg
 
@@ -55,6 +75,19 @@ done
 SIP_UAS_PERF_EXIT=$?
 echo -e "SIP UAS Performance Test result: $SIP_UAS_PERF_EXIT for $TIME seconds\n" >> $REPORT
 echo -e "\nFinish Performace test"
+
+
+# error handling
+diff $LOG/out-uas-1.log $LOG/siptests-jboss.log > $LOG/out-uas.perf.log
+ERRCOUNT=$(grep -ic " error " $LOG/out-uas.perf.log)
+SIP_ERRCOUNT=$((SIP_ERRCOUNT+ERRCOUNT))
+if [ "$ERRCOUNT" != 0 ]; then
+  echo -e "    There are $ERRCOUNT errors. See ERRORs in test-logs/out-uas.perf.log\n" >> $REPORT
+else
+  echo "Nothing"
+  #rm -f $LOG/out-uas.perf.log
+fi
+# error handling
 
 # Undeploy
 echo -e "\nUndeploy SIP UAS Example\n"
