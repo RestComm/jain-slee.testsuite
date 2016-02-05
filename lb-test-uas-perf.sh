@@ -34,7 +34,7 @@ sleep 240
 
 echo "LB and Cluster are ready!"
 
-echo -e "\nStart Performance Test\n"
+echo -e "\nStart UAS Performance Test\n"
 
 #cp $LOG/load-balancer.log $LOG/out-load-balancer-uas-0.log
 #cp $LOG/lb-port-1-jboss.log $LOG/out-port-1-uas-0.log
