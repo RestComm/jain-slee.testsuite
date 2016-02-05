@@ -100,11 +100,19 @@ echo -e "SIP UAS Performance Test result: $SIP_UAS_PERF_EXIT for $TIME seconds\n
 echo -e "SIP UAS Performance Test result: $SIP_UAS_PERF_EXIT for $TIME seconds\n" >> $REPORT
 echo -e "\nFinish Performace test"
 
-echo "Waiting 15 seconds"
-sleep 15
+echo "Waiting 10 seconds"
+sleep 10
 
 pkill -TERM -P $NODE1_PID
+echo "Waiting 10 seconds"
+sleep 10
+
 pkill -TERM -P $NODE2_PID
+echo "Waiting 10 seconds"
+sleep 10
+
 kill -9 $LB_PID
+echo "Waiting 10 seconds"
+sleep 10
 
 exit $SUCCESS
