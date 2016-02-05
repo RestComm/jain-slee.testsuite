@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export DEPLOY_SUCCESS=true
+$1=true
 exit
 
 export JSLEE_HOME=$PWD
