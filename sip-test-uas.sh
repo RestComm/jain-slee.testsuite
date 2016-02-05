@@ -6,6 +6,7 @@
 echo -e "\nDeploy SIP UAS Example\n"
 cd $JSLEE_HOME/examples/sip-uas
 ant deploy-all
+echo "Waiting 10 seconds"
 sleep 10
 
 echo -e "\nTesting SIP UAS Example"
@@ -93,4 +94,5 @@ fi
 echo -e "\nUndeploy SIP UAS Example\n"
 cd ..
 ant undeploy-all
+echo "Waiting 10 seconds"
 sleep 10

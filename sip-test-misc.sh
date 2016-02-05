@@ -7,6 +7,7 @@ echo -e "\nDeploy SIP Wake Up Example\n"
 echo -e "\nDeploy SIP Wake Up Example\n" >> $LOG/siptests-jboss.log
 cd $JSLEE_HOME/examples/sip-wake-up
 ant deploy-all
+echo "Waiting 15 seconds"
 sleep 15
 
 echo -e "\nTesting SIP Wake Up Example"
@@ -52,6 +53,7 @@ echo -e "\nUndeploy SIP Wake Up Example\n"
 echo -e "\nUndeploy SIP Wake Up Example\n" >> $LOG/siptests-jboss.log
 cd ..
 ant undeploy-all
+echo "Waiting 60 seconds"
 sleep 60
 
 ### SIP JDBC Registrar
@@ -61,6 +63,7 @@ echo -e "\nDeploy SIP JDBC Registrar Example\n"
 echo -e "\nDeploy SIP JDBC Registrar Example\n" >> $LOG/siptests-jboss.log
 cd $JSLEE_HOME/examples/sip-jdbc-registrar
 ant deploy-all
+echo "Waiting 15 seconds"
 sleep 15
 
 # error handling
@@ -86,7 +89,8 @@ done
 SIP_REGFUNC_EXIT=$?
 echo -e "SIP Registrar Functionality Test result: $SIP_REGFUNC_EXIT for $TIME seconds\n" >> $REPORT
 echo -e "\nFinish test"
-sleep 5
+echo "Waiting 15 seconds"
+sleep 15
 
 # error handling
 diff $LOG/out-jdbc-reg-0.log $LOG/siptests-jboss.log > $LOG/out-jdbc-reg.simple.log
@@ -123,6 +127,7 @@ done
 SIP_REGLOAD_EXIT=$?
 echo -e "SIP Registrar Load Test result: $SIP_REGLOAD_EXIT for $TIME seconds\n" >> $REPORT
 echo -e "\nFinish test"
+echo "Waiting 15 seconds"
 sleep 15
 
 # error handling
@@ -143,4 +148,5 @@ echo -e "\nUndeploy SIP JDBC Registrar Example\n"
 echo -e "\nUndeploy SIP JDBC Registrar Example\n" >> $LOG/siptests-jboss.log
 cd ..
 ant undeploy-all
+echo "Waiting 60 seconds"
 sleep 60

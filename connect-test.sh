@@ -19,6 +19,7 @@ echo -e "\nColocated test"
 ./connect-test-colocated.sh
 export SUCCESS=$?
 
+echo "Waiting 10 seconds"
 sleep 10
 
 echo -e "\nSeparate test"

@@ -10,6 +10,7 @@ $JBOSS_HOME/bin/run.sh > $LOG/connect-colocated-jboss.log 2>&1 &
 JBOSS_PID="$!"
 echo "JBOSS: $JBOSS_PID"
 
+echo "Waiting 120 seconds"
 sleep 120
 
 # Deploy
@@ -18,6 +19,7 @@ cp $LOG/connect-colocated-jboss.log $LOG/connect-colocated-jboss-0.log
 
 cd $JSLEE_HOME/examples/slee-connectivity
 ant deploy
+echo "Waiting 10 seconds"
 sleep 10
 
 diff $LOG/connect-colocated-jboss-0.log $LOG/connect-colocated-jboss.log > $LOG/connect-colocated-deploy.log
@@ -40,6 +42,7 @@ cp $LOG/connect-colocated-jboss.log $LOG/connect-colocated-jboss-1.log
 
 echo "Execute: twiddle.sh -s localhost:1099 invoke org.mobicents.slee:name=SleeConnectivityExample fireEvent helloworld"
 sh $JBOSS_HOME/bin/twiddle.sh -s localhost:1099 invoke org.mobicents.slee:name=SleeConnectivityExample fireEvent helloworld
+echo "Waiting 10 seconds"
 sleep 10
 
 diff $LOG/connect-colocated-jboss-1.log $LOG/connect-colocated-jboss.log > $LOG/connect-colocated.log
@@ -75,6 +78,7 @@ cp $LOG/connect-colocated-jboss.log $LOG/connect-colocated-jboss-2.log
 
 cd $JSLEE_HOME/examples/slee-connectivity
 ant undeploy
+echo "Waiting 10 seconds"
 sleep 10
 
 diff $LOG/connect-colocated-jboss-2.log $LOG/connect-colocated-jboss.log > $LOG/connect-colocated-undeploy.log
@@ -91,6 +95,7 @@ fi
 echo -e "\Colocated result:  $CONNECT_ERRCOUNT error(s)\n"
 
 pkill -TERM -P $JBOSS_PID
+echo "Waiting 30 seconds"
 sleep 30
 
 exit $SUCCESS

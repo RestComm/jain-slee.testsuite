@@ -16,6 +16,7 @@ function check
   cp $LOG/deploy-jboss.log $LOG/out-"$1"-0.log
   echo "Deploy: $2"
   ant $2
+  echo "Waiting $3 seconds"
   sleep $3
   diff $LOG/out-"$1"-0.log $LOG/deploy-jboss.log > $LOG/out-"$1".deploy.log
   
@@ -39,6 +40,7 @@ function check
   
   cp $LOG/deploy-jboss.log $LOG/out-"$1"-1.log
   echo "Undeploy: $4"
+  echo "Waiting $3 seconds"
   ant $4
   sleep $5
   diff $LOG/out-"$1"-1.log $LOG/deploy-jboss.log > $LOG/out-"$1".undeploy.log
@@ -74,7 +76,8 @@ $JBOSS_HOME/bin/run.sh > $LOG/deploy-jboss.log 2>&1 &
 JBOSS_PID="$!"
 echo "JBOSS: $JBOSS_PID"
 
-sleep 60
+echo "Waiting 120 seconds"
+sleep 120
 
 echo -e "Deploy/Undeploy Report\n" >> $REPORT
 
@@ -82,6 +85,7 @@ echo -e "Deploy/Undeploy Report\n" >> $REPORT
 # Copy Diameter Mux sar to server/default/deploy
 echo -e "Deploy jDiameter Stack Mux" >> $REPORT
 cp -r $DIAMETER_STACK/mobicents-diameter-mux-*.sar $JBOSS_HOME/server/default/deploy
+echo "Waiting 15 seconds"
 sleep 15
 
 # Resources
@@ -97,16 +101,19 @@ cd $JSLEE_HOME/resources
 check diameter-base deploy 15 undeploy 15
 
 ant -f diameter-base/build.xml deploy
+echo "Waiting 15 seconds"
 sleep 15
 check diameter-cca deploy 15 undeploy 15
 
 ant -f diameter-cca/build.xml deploy
+echo "Waiting 15 seconds"
 sleep 15
 
 check diameter-gx deploy 15 undeploy 15
 check diameter-rx deploy 15 undeploy 15
 
 ant -f diameter-cca/build.xml undeploy
+echo "Waiting 15 seconds"
 sleep 15
 
 check diameter-cx-dx deploy 15 undeploy 15
@@ -124,11 +131,13 @@ check hss-client deploy-all 15 undeploy-all 15
 
 cd $JSLEE_HOME/resources
 ant -f diameter-base/build.xml undeploy
+echo "Waiting 15 seconds"
 sleep 15
 
 # Remove Diameter Mux sar from server/default/deploy
 echo -e "\nUndeploy jDiameter Stack Mux\n" >> $REPORT
 rm -rf $JBOSS_HOME/server/default/deploy/mobicents-diameter-mux-*.sar
+echo "Waiting 30 seconds"
 sleep 30
 
 #
@@ -140,6 +149,7 @@ echo -e "\nRAs:\n" >> $REPORT
 echo -e "Deploy jSS7 Stack\n" >> $REPORT
 cd $SS7_STACK
 ant deploy
+echo "Waiting 15 seconds"
 sleep 15
 
 cd $JSLEE_HOME/resources
@@ -157,6 +167,7 @@ done
 echo -e "\nUndeploy jSS7 Stack\n" >> $REPORT
 cd $SS7_STACK
 ant undeploy
+echo "Waiting 15 seconds"
 sleep 15
 
 # Other

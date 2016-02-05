@@ -107,5 +107,6 @@ fi
 # error handling
 ###
 
+echo "Waiting 30 seconds"
 sleep 30
 #rm -f $LOG/$LOG/out-*-0.log

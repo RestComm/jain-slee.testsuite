@@ -21,6 +21,7 @@ $JBOSS_HOME/bin/run.sh > $LOG/siptests-jboss.log 2>&1 &
 JBOSS_PID="$!"
 echo "JBOSS_PID: $JBOSS_PID"
 
+echo "Waiting 120 seconds"
 sleep 120
 
 echo -e "SIP Tests Report\n" >> $REPORT
@@ -42,6 +43,7 @@ echo -e "SIP Tests Report\n" >> $REPORT
 echo -e "\nDeploy SIP B2BUA Example\n"
 cd $JSLEE_HOME/examples/sip-b2bua
 ant deploy-all
+echo "Waiting 10 seconds"
 sleep 10
 
 cd $JSLEE_HOME
@@ -52,6 +54,7 @@ cd $JSLEE_HOME
 echo -e "\nUndeploy SIP B2BUA Example\n"
 cd $JSLEE_HOME/examples/sip-b2bua
 ant undeploy-all
+echo "Waiting 10 seconds"
 sleep 10
 
 cd $JSLEE_HOME
@@ -70,6 +73,7 @@ fi
 #rm -f $LOG/out-*-1.log
 
 pkill -TERM -P $JBOSS_PID
+echo "Waiting 30 seconds"
 sleep 30
 
 exit $SUCCESS
