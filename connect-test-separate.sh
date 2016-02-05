@@ -24,7 +24,7 @@ $JBOSS_HOME/bin/run.sh -Djboss.service.binding.set=ports-01 -Djboss.messaging.Se
 JBOSSAS_PID="$!"
 echo "JBoss AS PID: $JBOSSAS_PID"
 
-sleep 60
+sleep 120
 
 # Deploy to JBoss/JSLEE
 echo -e "\nDeploy SLEE Connectivity Example\n"
