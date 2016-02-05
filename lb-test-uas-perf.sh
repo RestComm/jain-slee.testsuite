@@ -29,8 +29,8 @@ $JBOSS_HOME/bin/run.sh -c port-2 -Djboss.service.binding.set=ports-02 -Djboss.me
 export NODE2_PID="$!"
 echo "NODE2: $NODE2_PID"
 
-echo "Waiting 120 seconds"
-sleep 120
+echo "Waiting 240 seconds"
+sleep 240
 
 echo "LB and Cluster are ready!"
 
