@@ -1,6 +1,6 @@
 #!/bin/bash
 
-$1=true
+set -- true
 exit
 
 export JSLEE_HOME=$PWD
