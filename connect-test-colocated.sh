@@ -10,7 +10,7 @@ $JBOSS_HOME/bin/run.sh > $LOG/connect-colocated-jboss.log 2>&1 &
 JBOSS_PID="$!"
 echo "JBOSS: $JBOSS_PID"
 
-sleep 60
+sleep 120
 
 # Deploy
 echo -e "\nDeploy SLEE Connectivity Example\n"
@@ -88,7 +88,9 @@ then
   echo -e "> ... see in file $LOG/connect-colocated-undeploy.log\n" >> $REPORT
 fi
 
+echo -e "\Colocated result:  $CONNECT_ERRCOUNT error(s)\n"
+
 pkill -TERM -P $JBOSS_PID
-sleep 15
+sleep 30
 
 exit $SUCCESS

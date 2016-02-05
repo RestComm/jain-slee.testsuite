@@ -105,7 +105,6 @@ else
   #rm -f $LOG/out-b2bua-dialog.perf.log
 fi
 # error handling
-
 ###
 
 sleep 30

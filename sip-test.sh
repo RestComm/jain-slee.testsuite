@@ -21,7 +21,7 @@ $JBOSS_HOME/bin/run.sh > $LOG/siptests-jboss.log 2>&1 &
 JBOSS_PID="$!"
 echo "JBOSS_PID: $JBOSS_PID"
 
-sleep 60
+sleep 120
 
 echo -e "SIP Tests Report\n" >> $REPORT
 
@@ -70,5 +70,6 @@ fi
 #rm -f $LOG/out-*-1.log
 
 pkill -TERM -P $JBOSS_PID
+sleep 30
 
 exit $SUCCESS
