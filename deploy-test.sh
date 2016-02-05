@@ -1,7 +1,5 @@
 #!/bin/bash
 
-exit 1
-
 export JSLEE_HOME=$PWD
 export LOG=$JSLEE_HOME/test-logs
 export REPORTS=$JSLEE_HOME/test-reports
@@ -219,10 +217,11 @@ do
   fi
 done
 
+export SUCCESS=0
 echo -e "\nCommon result:  $DEPLOY_ERRCOUNT error(s)\n" >> $REPORT
 if [ "$DEPLOY_ERRCOUNT" == 0 ]
 then
-  export DEPLOY_SUCCESS=true
+  export SUCCESS=1
 fi
 
 # Tools
@@ -231,3 +230,5 @@ rm -f $LOG/out-*-0.log
 rm -f $LOG/out-*-1.log
 
 pkill -TERM -P $JBOSS_PID
+
+exit $SUCCESS
