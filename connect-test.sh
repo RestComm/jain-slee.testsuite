@@ -25,6 +25,7 @@ echo -e "\nSeparate test"
 ./connect-test-separate.sh
 export SUCCESS=$?
 
+echo -e "\nCommon result:  $CONNECT_ERRCOUNT error(s)\n"
 echo -e "\nCommon result:  $CONNECT_ERRCOUNT error(s)\n" >> $REPORT
 if [ "$CONNECT_ERRCOUNT" != 0 ] && [ "$SUCCESS" == 1 ]
 then
