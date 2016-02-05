@@ -92,7 +92,7 @@ then
   echo -e "> ... see in file $LOG/connect-colocated-undeploy.log\n" >> $REPORT
 fi
 
-echo -e "\Colocated result:  $CONNECT_ERRCOUNT error(s)\n"
+echo -e "\nColocated result:  $CONNECT_ERRCOUNT error(s)\n"
 
 pkill -TERM -P $JBOSS_PID
 echo "Waiting 30 seconds"

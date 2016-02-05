@@ -40,8 +40,8 @@ function check
   
   cp $LOG/deploy-jboss.log $LOG/out-"$1"-1.log
   echo "Undeploy: $4"
-  echo "Waiting $3 seconds"
   ant $4
+  echo "Waiting $3 seconds"
   sleep $5
   diff $LOG/out-"$1"-1.log $LOG/deploy-jboss.log > $LOG/out-"$1".undeploy.log
   

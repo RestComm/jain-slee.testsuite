@@ -132,7 +132,7 @@ then
   echo -e "> ... see in file $LOG/connect-separate-undeploy.log\n" >> $REPORT
 fi
 
-echo -e "\Separate result:  $CONNECT_ERRCOUNT error(s)\n"
+echo -e "\nSeparate result:  $CONNECT_ERRCOUNT error(s)\n"
 
 pkill -TERM -P $JBOSSJSLEE_PID
 pkill -TERM -P $JBOSSAS_PID
