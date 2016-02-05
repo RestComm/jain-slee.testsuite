@@ -1,6 +1,6 @@
 #!/bin/bash
 
-exit true
+exit 1
 
 export JSLEE_HOME=$PWD
 export LOG=$JSLEE_HOME/test-logs
