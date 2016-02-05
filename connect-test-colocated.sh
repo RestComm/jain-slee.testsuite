@@ -23,6 +23,7 @@ sleep 10
 diff $LOG/connect-colocated-jboss-0.log $LOG/connect-colocated-jboss.log > $LOG/connect-colocated-deploy.log
 # grep error
 ERRCOUNT=$(grep -c " ERROR " $LOG/connect-colocated-deploy.log)
+CONNECT_ERRCOUNT=$((CONNECT_ERRCOUNT+ERRCOUNT))
 if [ "$ERRCOUNT" != 0 ]
 then
   echo "Error in deploy:"
@@ -45,6 +46,8 @@ diff $LOG/connect-colocated-jboss-1.log $LOG/connect-colocated-jboss.log > $LOG/
 
 # grep error
 ERRCOUNT=$(grep -c " ERROR " $LOG/connect-colocated.log)
+CONNECT_ERRCOUNT=$((CONNECT_ERRCOUNT+ERRCOUNT))
+export SUCCESS=0
 if [ "$ERRCOUNT" != 0 ]
 then
   echo "Error in Colocated Test:" >> $REPORT
@@ -57,10 +60,12 @@ else
   then
     echo "SLEE Connectivity Example Colocated Test is SUCCESS"
     echo "SLEE Connectivity Example Colocated Test is SUCCESS" >> $REPORT
+    export SUCCESS=1
   else
     echo "SLEE Connectivity Example Colocated Test is FAILED"
     echo "SLEE Connectivity Example Colocated Test is FAILED" >> $REPORT
     echo -e "> ... see in file $LOG/connect-colocated.log\n" >> $REPORT
+    export SUCCESS=0
   fi
 fi
 
@@ -75,6 +80,7 @@ sleep 10
 diff $LOG/connect-colocated-jboss-2.log $LOG/connect-colocated-jboss.log > $LOG/connect-colocated-undeploy.log
 # grep error
 ERRCOUNT=$(grep -c " ERROR " $LOG/connect-colocated-undeploy.log)
+CONNECT_ERRCOUNT=$((CONNECT_ERRCOUNT+ERRCOUNT))
 if [ "$ERRCOUNT" != 0 ]
 then
   echo "Error in Undeploy:" >> $REPORT
@@ -84,3 +90,5 @@ fi
 
 pkill -TERM -P $JBOSS_PID
 sleep 15
+
+exit $SUCCESS

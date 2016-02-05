@@ -59,13 +59,16 @@ cd $JSLEE_HOME
 # SIP JDBC Registrar
 ./sip-test-misc.sh
 
+export SUCCESS=0
 echo -e "\nCommon result:  $SIP_ERRCOUNT error(s)\n" >> $REPORT
 if [ "$SIP_ERRCOUNT" == 0 ]
 then
-  export SIP_SUCCESS=true
+  export SUCCESS=1
 fi
 
 #rm -f $LOG/out-*-0.log
 #rm -f $LOG/out-*-1.log
 
 pkill -TERM -P $JBOSS_PID
+
+exit $SUCCESS

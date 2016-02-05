@@ -46,6 +46,7 @@ diff $LOG/connect-separate-jboss-0.log $LOG/connect-separate-jboss.log > $LOG/co
 diff $LOG/connect-separate-as-jboss-0.log $LOG/connect-separate-as-jboss.log >> $LOG/connect-separate-deploy.log
 # grep error
 ERRCOUNT=$(grep -c " ERROR " $LOG/connect-separate-deploy.log)
+CONNECT_ERRCOUNT=$((CONNECT_ERRCOUNT+ERRCOUNT))
 if [ "$ERRCOUNT" != 0 ]
 then
   echo "Error in deploy:"
@@ -69,6 +70,8 @@ diff $LOG/connect-separate-jboss-1.log $LOG/connect-separate-jboss.log > $LOG/co
 
 # grep error
 ERRCOUNT=$(grep -c " ERROR " $LOG/connect-separate.log)
+CONNECT_ERRCOUNT=$((CONNECT_ERRCOUNT+ERRCOUNT))
+export SUCCESS=0
 if [ "$ERRCOUNT" != 0 ]
 then
   echo "Error in Separate Test:" >> $REPORT
@@ -81,10 +84,12 @@ else
   then
     echo "SLEE Connectivity Example Separate Test is SUCCESS"
     echo "SLEE Connectivity Example Separate Test is SUCCESS" >> $REPORT
+    export SUCCESS=1
   else
     echo "SLEE Connectivity Example Separate Test is FAILED"
     echo "SLEE Connectivity Example Separate Test is FAILED" >> $REPORT
     echo -e "> ... see in file $LOG/connect-separate.log\n" >> $REPORT
+    export SUCCESS=0
   fi
 fi
 
@@ -108,6 +113,7 @@ diff $LOG/connect-separate-jboss-2.log $LOG/connect-separate-jboss.log > $LOG/co
 diff $LOG/connect-separate-as-jboss-2.log $LOG/connect-separate-as-jboss.log >> $LOG/connect-separate-undeploy.log
 # grep error
 ERRCOUNT=$(grep -c " ERROR " $LOG/connect-separate-undeploy.log)
+CONNECT_ERRCOUNT=$((CONNECT_ERRCOUNT+ERRCOUNT))
 if [ "$ERRCOUNT" != 0 ]
 then
   echo "Error in Undeploy:" >> $REPORT
@@ -122,3 +128,5 @@ sleep 60
 rm -f $JSLEE_RELEASE/jboss-5.1.0.GA-jdk6.zip
 rm -rf $JSLEE_RELEASE/jboss-5.1.0.GA
 sleep 20
+
+exit $SUCCESS
