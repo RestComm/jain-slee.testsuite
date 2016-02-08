@@ -75,8 +75,8 @@ while :; do
     export SUCCESS=0
     echo -e "    There are errors. See ERRORs in $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log\n"
     echo -e "    There are errors. See ERRORs in $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log\n" >> $REPORT
-    kill -9 $UAC_PID
-    break
+  #  kill -9 $UAC_PID
+  #  break
   fi
   
   #diff $LOG/out-load-balancer-uas-0.log $LOG/load-balancer.log > $LOG/out-$TIME.lbuas.log
