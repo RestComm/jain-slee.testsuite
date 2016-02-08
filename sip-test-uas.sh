@@ -43,8 +43,8 @@ SIP_ERRCOUNT=$((SIP_ERRCOUNT+ERRCOUNT))
 if [ "$ERRCOUNT" != 0 ]; then
   echo -e "    There are $ERRCOUNT errors. See ERRORs in test-logs/out-uas.simple.log\n" >> $REPORT
 else
-  echo "Nothing"
-  #rm -f $LOG/out-uas.simple.log
+  echo "There are no errors."
+  rm -f $LOG/out-uas.simple.log
 fi
 # error handling
 
@@ -85,8 +85,8 @@ SIP_ERRCOUNT=$((SIP_ERRCOUNT+ERRCOUNT))
 if [ "$ERRCOUNT" != 0 ]; then
   echo -e "    There are $ERRCOUNT errors. See ERRORs in test-logs/out-uas.perf.log\n" >> $REPORT
 else
-  echo "Nothing"
-  #rm -f $LOG/out-uas.perf.log
+  echo "There are no errors."
+  rm -f $LOG/out-uas.perf.log
 fi
 # error handling
 

@@ -18,30 +18,33 @@ echo "Load Balancer: $LB_PID"
 echo "Waiting 10 seconds"
 sleep 10
 
-$JBOSS_HOME/bin/run.sh -c port-1 -Djboss.service.binding.set=ports-01 -Djboss.messaging.ServerPeerID=0 -Dsession.serialization.jboss=false > $LOG/lb-port-1-jboss.log 2>&1 &
+$JBOSS_HOME/bin/run.sh -c port-1 -Djboss.service.binding.set=ports-01 -Djboss.messaging.ServerPeerID=0 -Dsession.serialization.jboss=false > $LOG/lb-uas-load-port-1-jboss.log 2>&1 &
 export NODE1_PID="$!"
 echo "NODE1: $NODE1_PID"
 
-echo "Waiting 10 seconds"
-sleep 10
-
-$JBOSS_HOME/bin/run.sh -c port-2 -Djboss.service.binding.set=ports-02 -Djboss.messaging.ServerPeerID=1 -Dsession.serialization.jboss=false > $LOG/lb-port-2-jboss.log 2>&1 &
-export NODE2_PID="$!"
-echo "NODE2: $NODE2_PID"
-
-#echo "Waiting 240 seconds"
-#sleep 240
-
+#sleep 10
 TIME=0
 while :; do
   sleep 10
   TIME=$((TIME+10))
-  echo "$TIME seconds"  
-  STARTED_IN_1=$(grep -c " Started in " $LOG/lb-port-1-jboss.log)
-  STARTED_IN_2=$(grep -c " Started in " $LOG/lb-port-2-jboss.log)
-  if [ $((STARTED_IN_1+STARTED_IN_2)) == 2 ]; then break; fi
+  echo "$TIME seconds"
+  STARTED_IN_1=$(grep -c " Started in " $LOG/lb-uas-load-port-1-jboss.log)
+  if [ "$STARTED_IN_1" == 1 ]; then break; fi
 done
+
+$JBOSS_HOME/bin/run.sh -c port-2 -Djboss.service.binding.set=ports-02 -Djboss.messaging.ServerPeerID=1 -Dsession.serialization.jboss=false > $LOG/lb-uas-load-port-2-jboss.log 2>&1 &
+export NODE2_PID="$!"
+echo "NODE2: $NODE2_PID"
+
 #sleep 60
+TIME=0
+while :; do
+  sleep 10
+  TIME=$((TIME+10))
+  echo "$TIME seconds"
+  STARTED_IN_2=$(grep -c " Started in " $LOG/lb-uas-load-port-2-jboss.log)
+  if [ "$STARTED_IN_2" == 1 ]; then break; fi
+done
 
 echo "LB and Cluster are ready!"
 
@@ -82,11 +85,8 @@ while :; do
       echo -e "    There are errors. See ERRORs in $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log\n" >> $REPORT
       #kill -9 $UAC_PID
       #break
-    else
-      echo "WATCHDOG: $WATCHDOG and NUMOFLINES: $NUMOFLINES"
     fi
   fi
-
   
   #diff $LOG/out-load-balancer-uas-0.log $LOG/load-balancer.log > $LOG/out-$TIME.lbuas.log
   #diff $LOG/out-port-1-uas-0.log $LOG/lb-port-1-jboss.log >> $LOG/out-$TIME.lbuas.log
@@ -119,19 +119,18 @@ echo -e "SIP UAS Performance Test result: $SIP_UAS_PERF_EXIT for $TIME seconds\n
 echo -e "SIP UAS Performance Test result: $SIP_UAS_PERF_EXIT for $TIME seconds\n" >> $REPORT
 echo -e "\nFinish Performace test"
 
-echo "Waiting 10 seconds"
-sleep 10
+#echo "Waiting 10 seconds"
+#sleep 10
 
 pkill -TERM -P $NODE1_PID
-echo "Waiting 10 seconds"
-sleep 10
-
 pkill -TERM -P $NODE2_PID
-echo "Waiting 10 seconds"
-sleep 10
+echo "Waiting 20 seconds"
+sleep 20
 
 kill -9 $LB_PID
 echo "Waiting 10 seconds"
 sleep 10
+
+cp $LOG/load-balancer.log $LOG/lb-uas-load-loadbalancer.log
 
 exit $SUCCESS

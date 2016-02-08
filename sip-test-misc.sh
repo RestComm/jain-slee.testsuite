@@ -7,15 +7,15 @@ echo -e "\nDeploy SIP Wake Up Example\n"
 echo -e "\nDeploy SIP Wake Up Example\n" >> $LOG/siptests-jboss.log
 cd $JSLEE_HOME/examples/sip-wake-up
 ant deploy-all
-echo "Waiting 15 seconds"
-sleep 15
+echo "Waiting 10 seconds"
+sleep 10
 
 echo -e "\nTesting SIP Wake Up Example"
 # error handling
 cp $LOG/siptests-jboss.log $LOG/out-wakeup-0.log
 
 cd sipp
-$SIPP 127.0.0.1:5060 -sf scenario.xml -i 127.0.0.1 -p 5050 -r 1 -m 1 -bg
+$SIPP 127.0.0.1:5060 -sf scenario.xml -i 127.0.0.1 -p 5050 -r 10 -m 10 -bg
 
 UAC_PID=$(ps aux | grep '[s]cenario.xml' | awk '{print $2}')
 if [ "$UAC_PID" == "" ]; then exit -1; fi
@@ -42,8 +42,8 @@ SIP_ERRCOUNT=$((SIP_ERRCOUNT+ERRCOUNT))
 if [ "$ERRCOUNT" != 0 ]; then
   echo -e "    There are $ERRCOUNT errors. See ERRORs in test-logs/out-wakeup.simple.log\n" >> $REPORT
 else
-  echo "Nothing"
-  #rm -f $LOG/out-wakeup.simple.log
+  echo "There are no errors."
+  rm -f $LOG/out-wakeup.simple.log
 fi
 # error handling
 
@@ -99,8 +99,8 @@ SIP_ERRCOUNT=$((SIP_ERRCOUNT+ERRCOUNT))
 if [ "$ERRCOUNT" != 0 ]; then
   echo -e "    There are $ERRCOUNT errors. See ERRORs in test-logs/out-jdbc-reg.simple.log\n" >> $REPORT
 else
-  echo "Nothing"
-  #rm -f $LOG/out-jdbc-reg.simple.log
+  echo "There are no errors."
+  rm -f $LOG/out-jdbc-reg.simple.log
 fi
 # error handling
 
@@ -137,8 +137,8 @@ SIP_ERRCOUNT=$((SIP_ERRCOUNT+ERRCOUNT))
 if [ "$ERRCOUNT" != 0 ]; then
   echo -e "    There are $ERRCOUNT errors. See ERRORs in test-logs/out-jdbc-reg.perf.log\n" >> $REPORT
 else
-  echo "Nothing"
-  #rm -f $LOG/out-jdbc-reg.perf.log
+  echo "There are no errors."
+  rm -f $LOG/out-jdbc-reg.perf.log
 fi
 # error handling
 
@@ -148,5 +148,5 @@ echo -e "\nUndeploy SIP JDBC Registrar Example\n"
 echo -e "\nUndeploy SIP JDBC Registrar Example\n" >> $LOG/siptests-jboss.log
 cd ..
 ant undeploy-all
-echo "Waiting 60 seconds"
-sleep 60
+echo "Waiting 30 seconds"
+sleep 30

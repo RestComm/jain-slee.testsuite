@@ -18,32 +18,32 @@ echo "Load Balancer: $LB_PID"
 echo "Waiting 10 seconds"
 sleep 10
 
-$JBOSS_HOME/bin/run.sh -c port-1 -Djboss.service.binding.set=ports-01 -Djboss.messaging.ServerPeerID=0 -Dsession.serialization.jboss=false > $LOG/lb-port-1-jboss.log 2>&1 &
+$JBOSS_HOME/bin/run.sh -c port-1 -Djboss.service.binding.set=ports-01 -Djboss.messaging.ServerPeerID=0 -Dsession.serialization.jboss=false > $LOG/lb-b2bua-port-1-jboss.log 2>&1 &
 export NODE1_PID="$!"
 echo "NODE1: $NODE1_PID"
 
-echo "Waiting 10 seconds"
-sleep 10
+#sleep 10
+TIME=0
+while :; do
+  sleep 10
+  TIME=$((TIME+10))
+  echo "$TIME seconds"
+  STARTED_IN_1=$(grep -c " Started in " $LOG/lb-b2bua-port-1-jboss.log)
+  if [ "$STARTED_IN_1" == 1 ]; then break; fi
+done
 
-$JBOSS_HOME/bin/run.sh -c port-2 -Djboss.service.binding.set=ports-02 -Djboss.messaging.ServerPeerID=1 -Dsession.serialization.jboss=false > $LOG/lb-port-2-jboss.log 2>&1 &
+$JBOSS_HOME/bin/run.sh -c port-2 -Djboss.service.binding.set=ports-02 -Djboss.messaging.ServerPeerID=1 -Dsession.serialization.jboss=false > $LOG/lb-b2bua-port-2-jboss.log 2>&1 &
 export NODE2_PID="$!"
 echo "NODE2: $NODE2_PID"
 
-#echo "Waiting 60 seconds"
 #sleep 60
 TIME=0
 while :; do
   sleep 10
   TIME=$((TIME+10))
   echo "$TIME seconds"
-  
-  STARTED_IN_1=$(grep -c " Started in " $LOG/lb-port-1-jboss.log)
-  STARTED_IN_2=$(grep -c " Started in " $LOG/lb-port-2-jboss.log)
-  
-  if [ $((STARTED_IN_1+STARTED_IN_2)) == 2 ]
-  then
-    break
-  fi
+  STARTED_IN_2=$(grep -c " Started in " $LOG/lb-b2bua-port-2-jboss.log)
+  if [ "$STARTED_IN_2" == 1 ]; then break; fi
 done
 
 echo "LB and Cluster are ready!"
@@ -102,5 +102,7 @@ sleep 10
 kill -9 $LB_PID
 echo "Waiting 10 seconds"
 sleep 10
+
+cp $LOG/load-balancer.log $LOG/lb-b2bua-loadbalancer.log
 
 exit $SUCCESS

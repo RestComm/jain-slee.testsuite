@@ -21,8 +21,15 @@ $JBOSS_HOME/bin/run.sh > $LOG/siptests-jboss.log 2>&1 &
 JBOSS_PID="$!"
 echo "JBOSS_PID: $JBOSS_PID"
 
-echo "Waiting 120 seconds"
-sleep 120
+#sleep 120
+TIME=0
+while :; do
+  sleep 10
+  TIME=$((TIME+10))
+  echo "$TIME seconds"
+  STARTED_IN=$(grep -c " Started in " $LOG/siptests-jboss.log)
+  if [ "$STARTED_IN" == 1 ]; then break; fi
+done
 
 echo -e "SIP Tests Report\n" >> $REPORT
 
@@ -73,7 +80,7 @@ fi
 #rm -f $LOG/out-*-1.log
 
 pkill -TERM -P $JBOSS_PID
-echo "Waiting 30 seconds"
-sleep 30
+echo "Waiting 10 seconds"
+sleep 10
 
 exit $SUCCESS

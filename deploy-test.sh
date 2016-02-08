@@ -76,8 +76,15 @@ $JBOSS_HOME/bin/run.sh > $LOG/deploy-jboss.log 2>&1 &
 JBOSS_PID="$!"
 echo "JBOSS: $JBOSS_PID"
 
-echo "Waiting 120 seconds"
-sleep 120
+#sleep 120
+TIME=0
+while :; do
+  sleep 10
+  TIME=$((TIME+10))
+  echo "$TIME seconds"
+  STARTED_IN=$(grep -c " Started in " $LOG/deploy-jboss.log)
+  if [ "$STARTED_IN" == 1 ]; then break; fi
+done
 
 echo -e "Deploy/Undeploy Report\n" >> $REPORT
 

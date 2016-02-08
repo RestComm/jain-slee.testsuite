@@ -49,8 +49,8 @@ SIP_ERRCOUNT=$((SIP_ERRCOUNT+ERRCOUNT))
 if [ "$ERRCOUNT" != 0 ]; then
   echo -e "    There are $ERRCOUNT errors. See ERRORs in test-logs/out-b2bua-dialog.simple.log\n" >> $REPORT
 else
-  echo "Nothing"
-  #rm -f $LOG/out-b2bua-cancel.dialog.log
+  echo "There are no errors."
+  rm -f $LOG/out-b2bua-cancel.dialog.log
 fi
 # error handling
 
@@ -101,11 +101,11 @@ SIP_ERRCOUNT=$((SIP_ERRCOUNT+ERRCOUNT))
 if [ "$ERRCOUNT" != 0 ]; then
   echo -e "    There are $ERRCOUNT errors. See ERRORs in test-logs/out-b2bua-dialog.perf.log\n" >> $REPORT
 else
-  echo "Nothing"
-  #rm -f $LOG/out-b2bua-dialog.perf.log
+  echo "There are no errors."
+  rm -f $LOG/out-b2bua-dialog.perf.log
 fi
 # error handling
 ###
 
-echo "Waiting 30 seconds"
-sleep 30
+echo "Waiting 10 seconds"
+sleep 10
