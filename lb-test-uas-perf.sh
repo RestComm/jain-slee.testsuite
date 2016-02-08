@@ -53,7 +53,7 @@ echo -e "\nStart UAS Performance Test\n"
 
 cd $JSLEE/examples/sip-uas/sipp
 #$SIPP 127.0.0.1:5060 -inf users.csv -nd -trace_err -sf uac.xml -i 127.0.0.1 -p 5050 -r 600 -rp 60s -m 800 -l 1000 -bg
-$SIPP 127.0.0.1:5060 -inf users.csv -nd -trace_err -sf uac.xml -i 127.0.0.1 -p 5050 -r 10 -m 800 -l 1000 -bg
+$SIPP 127.0.0.1:5060 -inf users.csv -nd -trace_err -sf uac.xml -i 127.0.0.1 -p 5050 -r 3 -m 200 -l 1000 -bg
 
 UAC_PID=$(ps aux | grep '[u]ac.xml' | awk '{print $2}')
 if [ "$UAC_PID" == "" ]; then
