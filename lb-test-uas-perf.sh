@@ -40,7 +40,7 @@ while :; do
   STARTED_IN_2=$(grep -c " Started in " $LOG/lb-port-2-jboss.log)
   if [ $((STARTED_IN_1+STARTED_IN_2)) == 2 ]; then break; fi
 done
-sleep 10
+sleep 60
 
 echo "LB and Cluster are ready!"
 
