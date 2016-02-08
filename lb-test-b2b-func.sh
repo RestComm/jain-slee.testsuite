@@ -29,8 +29,22 @@ $JBOSS_HOME/bin/run.sh -c port-2 -Djboss.service.binding.set=ports-02 -Djboss.me
 export NODE2_PID="$!"
 echo "NODE2: $NODE2_PID"
 
-echo "Waiting 60 seconds"
-sleep 60
+#echo "Waiting 60 seconds"
+#sleep 60
+TIME=0
+while :; do
+  sleep 10
+  TIME=$((TIME+10))
+  echo "$TIME seconds"
+  
+  STARTED_IN_1=$(grep -c " Started in " $LOG/lb-port-1-jboss.log)
+  STARTED_IN_2=$(grep -c " Started in " $LOG/lb-port-2-jboss.log)
+  
+  if [ $((STARTED_IN_1+STARTED_IN_2)) == 2 ]
+  then
+    break
+  fi
+done
 
 echo "LB and Cluster are ready!"
 
@@ -38,7 +52,7 @@ echo -e "\nStart B2BUA Functionality Test\n"
 
 cd $JSLEE/examples/sip-b2bua/sipp
 
-$SIPP -trace_err -sf uas_DIALOG.xml -i 127.0.0.1 -p 5090 -r 1 -m 10 -l 100 -bg
+$SIPP -trace_err -sf uas_DIALOG.xml -i 127.0.0.1 -p 5090 -r 1 -m 100 -l 100 -bg
 #UAS_PID=$!
 UAS_PID=$(ps aux | grep '[u]as_DIALOG.xml' | awk '{print $2}')
 if [ "$UAS_PID" == "" ]; then
@@ -47,7 +61,7 @@ fi
 echo "UAS: $UAS_PID"
 
 sleep 1
-$SIPP 127.0.0.1:5060 -trace_err -sf uac_DIALOG.xml -i 127.0.0.1 -p 5050 -r 1 -m 10 -l 100 -bg
+$SIPP 127.0.0.1:5060 -trace_err -sf uac_DIALOG.xml -i 127.0.0.1 -p 5050 -r 1 -m 100 -l 100 -bg
 #UAC_PID=$!
 UAC_PID=$(ps aux | grep '[u]ac_DIALOG.xml' | awk '{print $2}')
 if [ "$UAC_PID" == "" ]; then
