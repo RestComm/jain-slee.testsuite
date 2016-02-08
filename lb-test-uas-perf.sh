@@ -29,18 +29,19 @@ $JBOSS_HOME/bin/run.sh -c port-2 -Djboss.service.binding.set=ports-02 -Djboss.me
 export NODE2_PID="$!"
 echo "NODE2: $NODE2_PID"
 
-#echo "Waiting 60 seconds"
+echo "Waiting 240 seconds"
+sleep 240
+
+#TIME=0
+#while :; do
+#  sleep 10
+#  TIME=$((TIME+10))
+#  echo "$TIME seconds"  
+#  STARTED_IN_1=$(grep -c " Started in " $LOG/lb-port-1-jboss.log)
+#  STARTED_IN_2=$(grep -c " Started in " $LOG/lb-port-2-jboss.log)
+#  if [ $((STARTED_IN_1+STARTED_IN_2)) == 2 ]; then break; fi
+#done
 #sleep 60
-TIME=0
-while :; do
-  sleep 10
-  TIME=$((TIME+10))
-  echo "$TIME seconds"  
-  STARTED_IN_1=$(grep -c " Started in " $LOG/lb-port-1-jboss.log)
-  STARTED_IN_2=$(grep -c " Started in " $LOG/lb-port-2-jboss.log)
-  if [ $((STARTED_IN_1+STARTED_IN_2)) == 2 ]; then break; fi
-done
-sleep 60
 
 echo "LB and Cluster are ready!"
 
