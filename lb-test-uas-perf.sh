@@ -53,7 +53,7 @@ echo -e "\nStart UAS Performance Test\n"
 
 cd $JSLEE/examples/sip-uas/sipp
 #$SIPP 127.0.0.1:5060 -inf users.csv -nd -trace_err -sf uac.xml -i 127.0.0.1 -p 5050 -r 600 -rp 60s -m 800 -l 1000 -bg
-$SIPP 127.0.0.1:5060 -inf users.csv -nd -trace_err -sf uac.xml -i 127.0.0.1 -p 5050 -r 5 -m 700 -l 1000 -bg
+$SIPP 127.0.0.1:5060 -inf users.csv -nd -trace_err -sf uac.xml -i 127.0.0.1 -p 5050 -r 10 -m 700 -l 1000 -bg
 
 UAC_PID=$(ps aux | grep '[u]ac.xml' | awk '{print $2}')
 if [ "$UAC_PID" == "" ]; then
@@ -72,12 +72,20 @@ while :; do
   
   # error handling
   if [ -f $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log ]; then
-    export SUCCESS=0
-    echo -e "    There are errors. See ERRORs in $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log\n"
-    echo -e "    There are errors. See ERRORs in $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log\n" >> $REPORT
-  #  kill -9 $UAC_PID
-  #  break
+    NUMOFLINES=$(wc -l < $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log)
+    WATCHDOG=$(grep -c "Overload warning: the minor watchdog timer" $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log)
+    if [ "$WATCHDOG" == 0 ]
+    then
+      export SUCCESS=0
+      echo -e "    There are errors. See ERRORs in $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log\n"
+      echo -e "    There are errors. See ERRORs in $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log\n" >> $REPORT
+      #kill -9 $UAC_PID
+      #break
+    else
+      echo "WATCHDOG: $WATCHDOG and NUMOFLINES: $NUMOFLINES"
+    fi
   fi
+
   
   #diff $LOG/out-load-balancer-uas-0.log $LOG/load-balancer.log > $LOG/out-$TIME.lbuas.log
   #diff $LOG/out-port-1-uas-0.log $LOG/lb-port-1-jboss.log >> $LOG/out-$TIME.lbuas.log
