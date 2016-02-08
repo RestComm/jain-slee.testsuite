@@ -35,16 +35,12 @@ TIME=0
 while :; do
   sleep 10
   TIME=$((TIME+10))
-  echo "$TIME seconds"
-  
+  echo "$TIME seconds"  
   STARTED_IN_1=$(grep -c " Started in " $LOG/lb-port-1-jboss.log)
   STARTED_IN_2=$(grep -c " Started in " $LOG/lb-port-2-jboss.log)
-  
-  if [ $((STARTED_IN_1+STARTED_IN_2)) == 2 ]
-  then
-    break
-  fi
+  if [ $((STARTED_IN_1+STARTED_IN_2)) == 2 ]; then break; fi
 done
+sleep 10
 
 echo "LB and Cluster are ready!"
 
@@ -55,7 +51,7 @@ echo -e "\nStart UAS Performance Test\n"
 #cp $LOG/lb-port-2-jboss.log $LOG/out-port-2-uas-0.log
 
 cd $JSLEE/examples/sip-uas/sipp
-#$SIPP 127.0.0.1:5060 -inf users.csv -nd -trace_err -sf uac.xml -i 127.0.0.1 -p 5050 -r 100 -rp 60s -m 100 -l 100 -bg
+#$SIPP 127.0.0.1:5060 -inf users.csv -nd -trace_err -sf uac.xml -i 127.0.0.1 -p 5050 -r 600 -rp 60s -m 800 -l 1000 -bg
 $SIPP 127.0.0.1:5060 -inf users.csv -nd -trace_err -sf uac.xml -i 127.0.0.1 -p 5050 -r 10 -m 800 -l 1000 -bg
 
 UAC_PID=$(ps aux | grep '[u]ac.xml' | awk '{print $2}')
@@ -74,8 +70,7 @@ while :; do
   #echo $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log
   
   # error handling
-  if [ -f $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log ]
-  then
+  if [ -f $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log ]; then
     export SUCCESS=0
     echo -e "    There are errors. See ERRORs in $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log\n"
     echo -e "    There are errors. See ERRORs in $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log\n" >> $REPORT
