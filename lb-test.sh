@@ -19,19 +19,20 @@ echo -e "LB Report\n" > $REPORT
 ./lb-test-prepare.sh uas-lb
 ./lb-test-uas-perf.sh
 export UAS_SUCCESS=$?
+#exit $UAS_SUCCESS
 
-exit $UAS_SUCCESS
 #echo "Waiting 30 seconds"
 #sleep 30
 
-#./lb-test-prepare.sh b2bua-lb
-#./lb-test-b2b-func.sh
-#export B2B_SUCCESS=$?
+./lb-test-prepare.sh b2bua-lb
+./lb-test-b2b-func.sh
+export B2B_SUCCESS=$?
+#exit $B2B_SUCCESS
 
-#export SUCCESS=0
-#if [ "$UAS_SUCCESS" == 1 ] && [ "$B2B_SUCCESS" == 1 ]
-#then
-#  export SUCCESS=1
-#fi
+export SUCCESS=0
+if [ "$UAS_SUCCESS" == 1 ] && [ "$B2B_SUCCESS" == 1 ]
+then
+  export SUCCESS=1
+fi
 
-#exit $SUCCESS
+exit $SUCCESS
