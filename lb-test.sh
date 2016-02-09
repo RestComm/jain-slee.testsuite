@@ -3,7 +3,7 @@
 export JSLEE=$PWD
 export LOG=$JSLEE/test-logs
 export REPORTS=$JSLEE/test-reports
-export REPORT=$REPORTS/loadbalancer-report.log
+#export REPORT=$REPORTS/loadbalancer-report.log
 
 export JBOSS_HOME=$JSLEE/jboss-5.1.0.GA
 export JAVA_OPTS="-Xms1024m -Xmx1024m -XX:PermSize=128M -XX:MaxPermSize=256M -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode"
@@ -14,7 +14,7 @@ export LBVERSION=2.0.21
 export LBTEST=$JSLEE/test-tools/load-balancer
 export LBPATH=$JSLEE/extra/sip-balancer
 
-echo -e "LB Report\n" > $REPORT
+echo -e "\nLoadBalancer Tests Report\n" > $REPORT
 
 ./lb-test-prepare.sh uas-lb
 ./lb-test-uas-perf.sh

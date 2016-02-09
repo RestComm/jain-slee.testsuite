@@ -49,6 +49,7 @@ done
 echo "LB and Cluster are ready!"
 
 echo -e "\nStart B2BUA Functionality Test\n"
+echo -e "    SIP B2BUA Functionality Test is Started\n" >> $REPORT
 
 cd $JSLEE/examples/sip-b2bua/sipp
 
@@ -84,17 +85,11 @@ while :; do
 done
 
 SIP_B2BUA_DIALOG_EXIT=$?
-echo -e "SIP B2BUA DIALOG Functionality Test result: $SIP_B2BUA_DIALOG_EXIT for $TIME seconds\n"
-echo -e "SIP B2BUA DIALOG Functionality Test result: $SIP_B2BUA_DIALOG_EXIT for $TIME seconds\n" >> $REPORT
+echo -e "SIP B2BUA DIALOG Functionality Test is Finished: $SIP_B2BUA_DIALOG_EXIT for $TIME seconds\n"
+echo -e "    SIP B2BUA DIALOG Functionality Test is Finished: $SIP_B2BUA_DIALOG_EXIT for $TIME seconds\n" >> $REPORT
 echo -e "\nFinish Functionality test"
 
-echo "Waiting 10 seconds"
-sleep 10
-
 pkill -TERM -P $NODE1_PID
-echo "Waiting 10 seconds"
-sleep 10
-
 pkill -TERM -P $NODE2_PID
 echo "Waiting 10 seconds"
 sleep 10
@@ -103,6 +98,7 @@ kill -9 $LB_PID
 echo "Waiting 10 seconds"
 sleep 10
 
-cp $LOG/load-balancer.log $LOG/lb-b2bua-loadbalancer.log
+cp $LOG/load-balancer.log* $LOG/lb-b2bua-loadbalancer.log*
+rm -rf $LOG/load-balancer.log*
 
 exit $SUCCESS

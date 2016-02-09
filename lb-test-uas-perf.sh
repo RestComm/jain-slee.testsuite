@@ -49,6 +49,7 @@ done
 echo "LB and Cluster are ready!"
 
 echo -e "\nStart UAS Performance Test\n"
+echo -e "    SIP UAS Performance Test is Started\n" >> $REPORT
 
 #cp $LOG/load-balancer.log $LOG/out-load-balancer-uas-0.log
 #cp $LOG/lb-port-1-jboss.log $LOG/out-port-1-uas-0.log
@@ -81,8 +82,8 @@ while :; do
     if [ "$TEST" > 0 ]
     then
       export SUCCESS=0
-      echo -e "    There are errors. See ERRORs in $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log\n"
-      echo -e "    There are errors. See ERRORs in $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log\n" >> $REPORT
+      echo -e "There are errors. See ERRORs in $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log\n"
+      echo -e "        There are errors. See ERRORs in $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log\n" >> $REPORT
       #kill -9 $UAC_PID
       #break
     fi
@@ -115,22 +116,20 @@ while :; do
 done
 
 SIP_UAS_PERF_EXIT=$?
-echo -e "SIP UAS Performance Test result: $SIP_UAS_PERF_EXIT for $TIME seconds\n"
-echo -e "SIP UAS Performance Test result: $SIP_UAS_PERF_EXIT for $TIME seconds\n" >> $REPORT
+echo -e "SIP UAS Performance Test is Finished: $SIP_UAS_PERF_EXIT for $TIME seconds\n"
+echo -e "    SIP UAS Performance Test is Finished: $SIP_UAS_PERF_EXIT for $TIME seconds\n" >> $REPORT
 echo -e "\nFinish Performace test"
-
-#echo "Waiting 10 seconds"
-#sleep 10
 
 pkill -TERM -P $NODE1_PID
 pkill -TERM -P $NODE2_PID
-echo "Waiting 20 seconds"
-sleep 20
+echo "Waiting 10 seconds"
+sleep 10
 
 kill -9 $LB_PID
 echo "Waiting 10 seconds"
 sleep 10
 
-cp $LOG/load-balancer.log $LOG/lb-uas-load-loadbalancer.log
+cp $LOG/load-balancer.log* $LOG/lb-uas-load-loadbalancer.log*
+rm -rf $LOG/load-balancer.log*
 
 exit $SUCCESS

@@ -4,7 +4,6 @@
 
 # Deploy
 echo -e "\nDeploy SIP Wake Up Example\n"
-echo -e "\nDeploy SIP Wake Up Example\n" >> $LOG/siptests-jboss.log
 cd $JSLEE_HOME/examples/sip-wake-up
 ant deploy-all
 echo "Waiting 10 seconds"
@@ -12,7 +11,7 @@ sleep 10
 
 echo -e "\nTesting SIP Wake Up Example"
 # error handling
-cp $LOG/siptests-jboss.log $LOG/out-wakeup-0.log
+cp $LOG/sip-jboss.log $LOG/temp-wakeup-0.log
 
 cd sipp
 $SIPP 127.0.0.1:5060 -sf scenario.xml -i 127.0.0.1 -p 5050 -r 10 -m 10 -bg
@@ -31,26 +30,25 @@ while :; do
 done
 
 SIP_WAKEUP_EXIT=$?
-echo -e "SIP Wake Up Test result: $SIP_WAKEUP_EXIT for $TIME seconds\n" >> $REPORT
+echo -e "    SIP Wake Up Test result: $SIP_WAKEUP_EXIT for $TIME seconds\n" >> $REPORT
 echo -e "\nFinish test"
 
 
 # error handling
-diff $LOG/out-wakeup-0.log $LOG/siptests-jboss.log > $LOG/out-wakeup.simple.log
-ERRCOUNT=$(grep -ic " error " $LOG/out-wakeup.simple.log)
+diff $LOG/temp-wakeup-0.log $LOG/sip-jboss.log > $LOG/temp-wakeup.simple.log
+ERRCOUNT=$(grep -ic " error " $LOG/temp-wakeup.simple.log)
 SIP_ERRCOUNT=$((SIP_ERRCOUNT+ERRCOUNT))
 if [ "$ERRCOUNT" != 0 ]; then
-  echo -e "    There are $ERRCOUNT errors. See ERRORs in test-logs/out-wakeup.simple.log\n" >> $REPORT
+  echo -e "        There are $ERRCOUNT errors. See ERRORs in test-logs/out-wakeup.simple.log\n" >> $REPORT
 else
   echo "There are no errors."
-  rm -f $LOG/out-wakeup.simple.log
+  rm -f $LOG/temp-wakeup.simple.log
 fi
 # error handling
 
 
 # Undeploy
 echo -e "\nUndeploy SIP Wake Up Example\n"
-echo -e "\nUndeploy SIP Wake Up Example\n" >> $LOG/siptests-jboss.log
 cd ..
 ant undeploy-all
 echo "Waiting 60 seconds"
@@ -60,14 +58,13 @@ sleep 60
 
 # Deploy
 echo -e "\nDeploy SIP JDBC Registrar Example\n"
-echo -e "\nDeploy SIP JDBC Registrar Example\n" >> $LOG/siptests-jboss.log
 cd $JSLEE_HOME/examples/sip-jdbc-registrar
 ant deploy-all
 echo "Waiting 15 seconds"
 sleep 15
 
 # error handling
-cp $LOG/siptests-jboss.log $LOG/out-jdbc-reg-0.log
+cp $LOG/sip-jboss.log $LOG/temp-jdbc-reg-0.log
 cd sipp
 
 echo -e "\nStart SIP Registrar Functionality Test\n"
@@ -87,27 +84,27 @@ while :; do
 done
 
 SIP_REGFUNC_EXIT=$?
-echo -e "SIP Registrar Functionality Test result: $SIP_REGFUNC_EXIT for $TIME seconds\n" >> $REPORT
+echo -e "    SIP Registrar Functionality Test result: $SIP_REGFUNC_EXIT for $TIME seconds\n" >> $REPORT
 echo -e "\nFinish test"
 echo "Waiting 15 seconds"
 sleep 15
 
 # error handling
-diff $LOG/out-jdbc-reg-0.log $LOG/siptests-jboss.log > $LOG/out-jdbc-reg.simple.log
-ERRCOUNT=$(grep -ic " error " $LOG/out-jdbc-reg.simple.log)
+diff $LOG/temp-jdbc-reg-0.log $LOG/sip-jboss.log > $LOG/temp-jdbc-reg.simple.log
+ERRCOUNT=$(grep -ic " error " $LOG/temp-jdbc-reg.simple.log)
 SIP_ERRCOUNT=$((SIP_ERRCOUNT+ERRCOUNT))
 if [ "$ERRCOUNT" != 0 ]; then
-  echo -e "    There are $ERRCOUNT errors. See ERRORs in test-logs/out-jdbc-reg.simple.log\n" >> $REPORT
+  echo -e "        There are $ERRCOUNT errors. See ERRORs in test-logs/out-jdbc-reg.simple.log\n" >> $REPORT
 else
   echo "There are no errors."
-  rm -f $LOG/out-jdbc-reg.simple.log
+  rm -f $LOG/temp-jdbc-reg.simple.log
 fi
 # error handling
 
 
 echo -e "\nStart SIP Registrar Load Test\n"
 # error handling
-cp $LOG/siptests-jboss.log $LOG/out-jdbc-reg-1.log
+cp $LOG/sip-jboss.log $LOG/temp-jdbc-reg-1.log
 
 $SIPP 127.0.0.1:5060 -sf registrar-load-test.xml -i 127.0.0.1 -p 5050 -r 1 -m 200 -bg
 
@@ -125,27 +122,26 @@ while :; do
 done
 
 SIP_REGLOAD_EXIT=$?
-echo -e "SIP Registrar Load Test result: $SIP_REGLOAD_EXIT for $TIME seconds\n" >> $REPORT
+echo -e "    SIP Registrar Load Test result: $SIP_REGLOAD_EXIT for $TIME seconds\n" >> $REPORT
 echo -e "\nFinish test"
 echo "Waiting 15 seconds"
 sleep 15
 
 # error handling
-diff $LOG/out-jdbc-reg-0.log $LOG/siptests-jboss.log > $LOG/out-jdbc-reg.perf.log
-ERRCOUNT=$(grep -ic " error " $LOG/out-jdbc-reg.perf.log)
+diff $LOG/temp-jdbc-reg-0.log $LOG/sip-jboss.log > $LOG/temp-jdbc-reg.perf.log
+ERRCOUNT=$(grep -ic " error " $LOG/temp-jdbc-reg.perf.log)
 SIP_ERRCOUNT=$((SIP_ERRCOUNT+ERRCOUNT))
 if [ "$ERRCOUNT" != 0 ]; then
-  echo -e "    There are $ERRCOUNT errors. See ERRORs in test-logs/out-jdbc-reg.perf.log\n" >> $REPORT
+  echo -e "        There are $ERRCOUNT errors. See ERRORs in test-logs/out-jdbc-reg.perf.log\n" >> $REPORT
 else
   echo "There are no errors."
-  rm -f $LOG/out-jdbc-reg.perf.log
+  rm -f $LOG/temp-jdbc-reg.perf.log
 fi
 # error handling
 
 
 # Undeploy
 echo -e "\nUndeploy SIP JDBC Registrar Example\n"
-echo -e "\nUndeploy SIP JDBC Registrar Example\n" >> $LOG/siptests-jboss.log
 cd ..
 ant undeploy-all
 echo "Waiting 30 seconds"
