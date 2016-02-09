@@ -103,7 +103,7 @@ if [ -f $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log ]; then
   NUMOFLINES=$(wc -l < $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log)
   WATCHDOG=$(grep -c "Overload warning: the minor watchdog timer" $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log)
   TEST=$((NUMOFLINES-1-WATCHDOG))
-  if [ "$TEST" > 0 ]
+  if [ "$TEST" != 0 ]
   then
     #export SUCCESS=0
     echo "WATCHDOG: $WATCHDOG of NUMOFLINES: $NUMOFLINES"
