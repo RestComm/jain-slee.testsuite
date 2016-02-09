@@ -14,7 +14,7 @@ cp -r $JBOSS_HOME/server/all $JBOSS_HOME/server/port-2
 
 # Deploy/Install example: UAS, B2BUA
 if [ $# -ne 0 ]; then
-	case $1 in
+	case $1 in 
 		uas-lb)
 		    echo "Deploy UAS Example"
 			ant deploy-all -f $JSLEE/examples/sip-uas/build.xml -Djboss.config=port-1
