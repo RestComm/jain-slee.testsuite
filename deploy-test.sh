@@ -64,7 +64,7 @@ function check
 # Start JSLEE
 export JBOSS_HOME=$JSLEE_HOME/jboss-5.1.0.GA
 export DIAMETER_STACK=$JSLEE_HOME/extra/restcomm-diameter
-export SS7_STACK=$JSLEE_HOME/extra/restcomm-ss7/mobicents-jss7-*/ss7
+export SS7_STACK=$JSLEE_HOME/extra/restcomm-ss7/restcomm-jss7-*/ss7
 echo $JBOSS_HOME
 
 $JBOSS_HOME/bin/run.sh > $LOG/deploy-jboss.log 2>&1 &
@@ -86,7 +86,7 @@ echo -e "\nDeployment Test Report\n" >> $REPORT
 # Diameter
 # Copy Diameter Mux sar to server/default/deploy
 echo -e "     Deploy jDiameter Stack Mux" >> $REPORT
-cp -r $DIAMETER_STACK/mobicents-diameter-mux-*.sar $JBOSS_HOME/server/default/deploy
+cp -r $DIAMETER_STACK/restcomm-diameter-mux-*.sar $JBOSS_HOME/server/default/deploy
 echo "Waiting 15 seconds"
 sleep 15
 
@@ -132,7 +132,7 @@ sleep 15
 
 # Remove Diameter Mux sar from server/default/deploy
 echo -e "\n     Undeploy jDiameter Stack Mux\n" >> $REPORT
-rm -rf $JBOSS_HOME/server/default/deploy/mobicents-diameter-mux-*.sar
+rm -rf $JBOSS_HOME/server/default/deploy/restcomm-diameter-mux-*.sar
 echo "Waiting 30 seconds"
 sleep 30
 
