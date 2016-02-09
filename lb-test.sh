@@ -33,6 +33,11 @@ export SUCCESS=0
 if [ "$UAS_SUCCESS" == 1 ] && [ "$B2B_SUCCESS" == 1 ]
 then
   export SUCCESS=1
+  echo -e "\nLoadBalancer Summary: is SUCCESSFULLY\n"
+  echo -e "\nLoadBalancer Summary: is SUCCESSFULLY\n" >> $REPORT
+else
+  echo -e "\nLoadBalancer Summary: is FAILED\n"
+  echo -e "\nLoadBalancer Summary: is FAILED\n" >> $REPORT
 fi
 
 exit $SUCCESS
