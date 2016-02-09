@@ -33,7 +33,7 @@ then
   export SUCCESS=0
 fi
 
-rm -f $LOG/temp-*-0.log
-rm -f $LOG/temp-*-1.log
+#rm -f $LOG/temp-*-0.log
+#rm -f $LOG/temp-*-1.log
 
 exit $SUCCESS

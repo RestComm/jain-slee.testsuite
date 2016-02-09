@@ -239,7 +239,7 @@ pkill -TERM -P $JBOSS_PID
 echo "Waiting 10 seconds"
 sleep 10
 
-rm -f $LOG/temp-*-0.log
-rm -f $LOG/temp-*-1.log
+#rm -f $LOG/temp-*-0.log
+#rm -f $LOG/temp-*-1.log
 
 exit $SUCCESS
