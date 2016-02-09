@@ -26,8 +26,8 @@ echo -e "\nSeparate test"
 ./connect-test-separate.sh
 export SUCCESS=$?
 
-echo -e "\SLEE Connectivity Summary: $CONNECT_ERRCOUNT error(s)\n"
-echo -e "\SLEE Connectivity Summary: $CONNECT_ERRCOUNT error(s)\n" >> $REPORT
+echo -e "\nSLEE Connectivity Summary: $CONNECT_ERRCOUNT error(s)\n"
+echo -e "\nSLEE Connectivity Summary: $CONNECT_ERRCOUNT error(s)\n" >> $REPORT
 if [ "$CONNECT_ERRCOUNT" != 0 ] && [ "$SUCCESS" == 1 ]
 then
   export SUCCESS=0

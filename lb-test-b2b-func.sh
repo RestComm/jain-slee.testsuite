@@ -85,8 +85,8 @@ while :; do
 done
 
 SIP_B2BUA_DIALOG_EXIT=$?
-echo -e "SIP B2BUA DIALOG Functionality Test is Finished: $SIP_B2BUA_DIALOG_EXIT for $TIME seconds\n"
-echo -e "    SIP B2BUA DIALOG Functionality Test is Finished: $SIP_B2BUA_DIALOG_EXIT for $TIME seconds\n" >> $REPORT
+echo -e "SIP B2BUA Functionality Test is Finished: $SIP_B2BUA_DIALOG_EXIT for $TIME seconds\n"
+echo -e "    SIP B2BUA Functionality Test is Finished: $SIP_B2BUA_DIALOG_EXIT for $TIME seconds\n" >> $REPORT
 echo -e "\nFinish Functionality test"
 
 pkill -TERM -P $NODE1_PID

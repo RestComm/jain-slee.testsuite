@@ -72,23 +72,6 @@ while :; do
   TIME=$((TIME+10))
   echo "$TIME seconds"
   
-  #echo $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log
-  
-  # error handling
-  if [ -f $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log ]; then
-    NUMOFLINES=$(wc -l < $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log)
-    WATCHDOG=$(grep -c "Overload warning: the minor watchdog timer" $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log)
-    TEST=$((NUMOFLINES-1-WATCHDOG))
-    if [ "$TEST" > 0 ]
-    then
-      export SUCCESS=0
-      echo -e "There are errors. See ERRORs in $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log\n"
-      echo -e "        There are errors. See ERRORs in $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log\n" >> $REPORT
-      #kill -9 $UAC_PID
-      #break
-    fi
-  fi
-  
   #diff $LOG/out-load-balancer-uas-0.log $LOG/load-balancer.log > $LOG/out-$TIME.lbuas.log
   #diff $LOG/out-port-1-uas-0.log $LOG/lb-port-1-jboss.log >> $LOG/out-$TIME.lbuas.log
   #diff $LOG/out-port-2-uas-0.log $LOG/lb-port-2-jboss.log >> $LOG/out-$TIME.lbuas.log
@@ -114,6 +97,22 @@ while :; do
     break
   fi
 done
+
+# error handling
+if [ -f $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log ]; then
+  NUMOFLINES=$(wc -l < $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log)
+  WATCHDOG=$(grep -c "Overload warning: the minor watchdog timer" $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log)
+  TEST=$((NUMOFLINES-1-WATCHDOG))
+  if [ "$TEST" > 0 ]
+  then
+    #export SUCCESS=0
+    echo "WATCHDOG: $WATCHDOG of NUMOFLINES: $NUMOFLINES"
+    echo -e "There are errors. See ERRORs in $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log\n"
+    echo -e "        There are errors. See ERRORs in $JSLEE/examples/sip-uas/sipp/uac_"$UAC_PID"_errors.log\n" >> $REPORT
+    #kill -9 $UAC_PID
+    #break
+  fi
+fi
 
 SIP_UAS_PERF_EXIT=$?
 echo -e "SIP UAS Performance Test is Finished: $SIP_UAS_PERF_EXIT for $TIME seconds\n"
