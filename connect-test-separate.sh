@@ -16,8 +16,15 @@ $JBOSS_HOME/bin/run.sh > $LOG/connect-separate-jboss.log 2>&1 &
 JBOSSJSLEE_PID="$!"
 echo "JBoss/JSLEE PID: $JBOSSJSLEE_PID"
 
-echo "Waiting 10 seconds"
-sleep 10
+#sleep 10
+TIME=0
+while :; do
+  sleep 10
+  TIME=$((TIME+10))
+  echo "$TIME seconds"
+  STARTED_IN=$(grep -c " Started in " $LOG/connect-separate-jboss.log)
+  if [ "$STARTED_IN" == 1 ]; then break; fi
+done
 
 # JBoss on default with ports-01
 export JBOSS_HOME=$JBOSSAS_HOME
@@ -25,8 +32,15 @@ $JBOSS_HOME/bin/run.sh -Djboss.service.binding.set=ports-01 -Djboss.messaging.Se
 JBOSSAS_PID="$!"
 echo "JBoss AS PID: $JBOSSAS_PID"
 
-echo "Waiting 120 seconds"
-sleep 120
+#sleep 120
+TIME=0
+while :; do
+  sleep 10
+  TIME=$((TIME+10))
+  echo "$TIME seconds"
+  STARTED_IN=$(grep -c " Started in " $LOG/connect-separate-as-jboss.log)
+  if [ "$STARTED_IN" == 1 ]; then break; fi
+done
 
 # Deploy to JBoss/JSLEE
 echo -e "\nDeploy SLEE Connectivity Example\n"
@@ -136,12 +150,12 @@ echo -e "\nSeparate result:  $CONNECT_ERRCOUNT error(s)\n"
 
 pkill -TERM -P $JBOSSJSLEE_PID
 pkill -TERM -P $JBOSSAS_PID
-echo "Waiting 60 seconds"
-sleep 60
+echo "Waiting 20 seconds"
+sleep 20
 
 rm -f $JSLEE_RELEASE/jboss-5.1.0.GA-jdk6.zip
 rm -rf $JSLEE_RELEASE/jboss-5.1.0.GA
-echo "Waiting 20 seconds"
-sleep 20
+echo "Waiting 10 seconds"
+sleep 10
 
 exit $SUCCESS
