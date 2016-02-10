@@ -14,7 +14,7 @@ export LBVERSION=2.0.21
 export LBTEST=$JSLEE/test-tools/load-balancer
 export LBPATH=$JSLEE/extra/sip-balancer
 
-echo -e "\nLoadBalancer Tests Report\n" > $REPORT
+echo -e "\nLoadBalancer Tests Report\n" >> $REPORT
 
 ./lb-test-prepare.sh uas-lb
 ./lb-test-uas-perf.sh
