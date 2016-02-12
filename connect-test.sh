@@ -11,7 +11,9 @@ export CONNECT_ERRCOUNT=0
 #mkdir -p $LOG
 #mkdir -p $REPORTS
 
-echo -e "\nSLEE Connectivity Tests Report\n" >> $REPORT
+echo "================================================================================" >> $REPORT
+echo "SLEE Connectivity Tests Report" >> $REPORT
+echo "================================================================================" >> $REPORT
 
 export SUCCESS=0
 
@@ -19,21 +21,24 @@ echo -e "\nColocated test"
 ./connect-test-colocated.sh
 export SUCCESS=$?
 
-echo "Waiting 10 seconds"
+echo "Wait 10 seconds.."
 sleep 10
 
 echo -e "\nSeparate test"
 ./connect-test-separate.sh
 export SUCCESS=$?
 
-echo -e "\nSLEE Connectivity Summary: $CONNECT_ERRCOUNT error(s)\n"
-echo -e "\nSLEE Connectivity Summary: $CONNECT_ERRCOUNT error(s)\n" >> $REPORT
+echo -e "\nSLEE Connectivity Summary:  $CONNECT_ERRCOUNT error(s)\n"
+echo -e "\nSLEE Connectivity Summary:  $CONNECT_ERRCOUNT error(s)\n" >> $REPORT
+echo "================================================================================" >> $REPORT
+
 if [ "$CONNECT_ERRCOUNT" != 0 ] && [ "$SUCCESS" == 1 ]
 then
   export SUCCESS=0
 fi
 
-#rm -f $LOG/temp-*-0.log
-#rm -f $LOG/temp-*-1.log
+rm -f $LOG/temp-*-0.log
+rm -f $LOG/temp-*-1.log
+rm -f $LOG/temp-*-2.log
 
 exit $SUCCESS

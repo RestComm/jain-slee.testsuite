@@ -50,13 +50,13 @@ cp $LOG/connect-separate-as-jboss.log $LOG/temp-connect-separate-as-jboss-0.log
 #cd $JSLEE_HOME/examples/slee-connectivity
 #ant deploy
 cp $JSLEE_HOME/examples/slee-connectivity/restcomm-slee-connectivity-example-slee-DU-*.jar $JBOSSJSLEE_HOME/server/default/deploy
-echo "Waiting 10 seconds"
+echo "Wait 10 seconds.."
 sleep 10
 
 # Deploy to JBoss AS
 cp -r $JSLEE_HOME/tools/remote-slee-connection/restcomm-slee-remote-connection.rar $JBOSSAS_HOME/server/default/deploy
 cp -r $JSLEE_HOME/examples/slee-connectivity/restcomm-slee-connectivity-example-javaee-beans $JBOSSAS_HOME/server/default/deploy
-echo "Waiting 10 seconds"
+echo "Wait 10 seconds.."
 sleep 10
 
 diff $LOG/temp-connect-separate-jboss-0.log $LOG/connect-separate-jboss.log > $LOG/temp-connect-separate.deploy.log
@@ -79,7 +79,7 @@ cp $LOG/connect-separate-jboss.log $LOG/temp-connect-separate-jboss-1.log
 
 echo "Execute: twiddle.sh -s localhost:1199 invoke org.mobicents.slee:name=SleeConnectivityExample fireEvent helloworld"
 sh $JBOSSAS_HOME/bin/twiddle.sh -s localhost:1199 invoke org.mobicents.slee:name=SleeConnectivityExample fireEvent helloworld
-echo "Waiting 10 seconds"
+echo "Wait 10 seconds.."
 sleep 10
 
 diff $LOG/temp-connect-separate-jboss-1.log $LOG/connect-separate-jboss.log > $LOG/temp-connect.separate.log
@@ -98,12 +98,12 @@ else
   ISRESULT=$(grep -c "helloworld" $LOG/temp-connect.separate.log)
   if [ "$ISRESULT" != 0 ]
   then
-    echo "SLEE Connectivity Separate Test is SUCCESSFULLY"
-    echo "    SLEE Connectivity Separate Test is SUCCESSFULLY" >> $REPORT
+    echo "SLEE Connectivity Separate Test is SUCCESSFUL"
+    echo "    SLEE Connectivity Separate Test is SUCCESSFUL" >> $REPORT
     export SUCCESS=1
   else
-    echo "SLEE Connectivity Separate Test is FAILED"
-    echo "    SLEE Connectivity Separate Test is FAILED" >> $REPORT
+    echo "SLEE Connectivity Separate Test FAILED"
+    echo "    SLEE Connectivity Separate Test FAILED" >> $REPORT
     echo -e "> ... see in file $LOG/temp-connect.separate.log\n" >> $REPORT
     export SUCCESS=0
   fi
@@ -116,12 +116,12 @@ cp $LOG/connect-separate-as-jboss.log $LOG/temp-connect-separate-as-jboss-2.log
 
 rm -r $JBOSSAS_HOME/server/default/deploy/restcomm-slee-connectivity-example-javaee-beans
 rm -r $JBOSSAS_HOME/server/default/deploy/restcomm-slee-remote-connection.rar
-echo "Waiting 10 seconds"
+echo "Wait 10 seconds.."
 sleep 10
 
 # Undeploy from JBoss/JSLEE
 rm $JBOSSJSLEE_HOME/server/default/deploy/restcomm-slee-connectivity-example-slee-DU-*.jar
-echo "Waiting 20 seconds"
+echo "Wait 20 seconds.."
 sleep 20
 
 diff $LOG/temp-connect-separate-jboss-2.log $LOG/connect-separate-jboss.log > $LOG/temp-connect-separate.undeploy.log
@@ -140,7 +140,7 @@ echo -e "\nSeparate result:  $CONNECT_ERRCOUNT error(s)\n"
 
 pkill -TERM -P $JBOSSJSLEE_PID
 pkill -TERM -P $JBOSSAS_PID
-echo "Waiting 10 seconds"
+echo "Wait 10 seconds.."
 sleep 10
 
 rm -f $JSLEE_RELEASE/jboss-5.1.0.GA-jdk6.zip

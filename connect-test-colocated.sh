@@ -26,7 +26,7 @@ cp $LOG/connect-colocated-jboss.log $LOG/temp-connect-colocated-jboss-0.log
 
 cd $JSLEE_HOME/examples/slee-connectivity
 ant deploy
-echo "Waiting 10 seconds"
+echo "Wait 10 seconds.."
 sleep 10
 
 diff $LOG/temp-connect-colocated-jboss-0.log $LOG/connect-colocated-jboss.log > $LOG/temp-connect-colocated.deploy.log
@@ -49,7 +49,7 @@ cp $LOG/connect-colocated-jboss.log $LOG/temp-connect-colocated-jboss-1.log
 
 echo "Execute: twiddle.sh -s localhost:1099 invoke org.mobicents.slee:name=SleeConnectivityExample fireEvent helloworld"
 sh $JBOSS_HOME/bin/twiddle.sh -s localhost:1099 invoke org.mobicents.slee:name=SleeConnectivityExample fireEvent helloworld
-echo "Waiting 10 seconds"
+echo "Wait 10 seconds.."
 sleep 10
 
 diff $LOG/temp-connect-colocated-jboss-1.log $LOG/connect-colocated-jboss.log > $LOG/temp-connect.colocated.log
@@ -68,12 +68,12 @@ else
   ISRESULT=$(grep -c "helloworld" $LOG/temp-connect.colocated.log)
   if [ "$ISRESULT" != 0 ]
   then
-    echo -e "SLEE Connectivity Colocated Test is SUCCESSFULLY\n"
+    echo -e "SLEE Connectivity Colocated Test is SUCCESSFUL\n"
     echo -e "    SLEE Connectivity Colocated Test is SUCCESSFULLY\n" >> $REPORT
     export SUCCESS=1
   else
-    echo -e "SLEE Connectivity Colocated Test is FAILED\n"
-    echo -e "    SLEE Connectivity Colocated Test is FAILED\n" >> $REPORT
+    echo -e "SLEE Connectivity Colocated Test FAILED\n"
+    echo -e "    SLEE Connectivity Colocated Test FAILED\n" >> $REPORT
     echo -e "> ... see in file $LOG/temp-connect.colocated.log\n" >> $REPORT
     export SUCCESS=0
   fi
@@ -85,7 +85,7 @@ cp $LOG/connect-colocated-jboss.log $LOG/temp-connect-colocated-jboss-2.log
 
 cd $JSLEE_HOME/examples/slee-connectivity
 ant undeploy
-echo "Waiting 10 seconds"
+echo "Wait 10 seconds.."
 sleep 10
 
 diff $LOG/temp-connect-colocated-jboss-2.log $LOG/connect-colocated-jboss.log > $LOG/temp-connect-colocated.undeploy.log
@@ -105,7 +105,7 @@ fi
 echo -e "\nColocated Summary:  $CONNECT_ERRCOUNT error(s)\n"
 
 pkill -TERM -P $JBOSS_PID
-echo "Waiting 10 seconds"
+echo "Wait 10 seconds.."
 sleep 10
 
 exit $SUCCESS

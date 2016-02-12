@@ -107,5 +107,5 @@ fi
 # error handling
 ###
 
-echo "Waiting 10 seconds"
+echo "Wait 10 seconds.."
 sleep 10

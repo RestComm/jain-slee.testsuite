@@ -6,7 +6,7 @@
 echo -e "\nDeploy SIP Wake Up Example\n"
 cd $JSLEE_HOME/examples/sip-wake-up
 ant deploy-all
-echo "Waiting 10 seconds"
+echo "Wait 10 seconds.."
 sleep 10
 
 echo -e "\nTesting SIP Wake Up Example"
@@ -51,7 +51,7 @@ fi
 echo -e "\nUndeploy SIP Wake Up Example\n"
 cd ..
 ant undeploy-all
-echo "Waiting 60 seconds"
+echo "Wait 60 seconds.."
 sleep 60
 
 ### SIP JDBC Registrar
@@ -60,7 +60,7 @@ sleep 60
 echo -e "\nDeploy SIP JDBC Registrar Example\n"
 cd $JSLEE_HOME/examples/sip-jdbc-registrar
 ant deploy-all
-echo "Waiting 15 seconds"
+echo "Wait 15 seconds.."
 sleep 15
 
 # error handling
@@ -86,7 +86,7 @@ done
 SIP_REGFUNC_EXIT=$?
 echo -e "    SIP Registrar Functionality Test result: $SIP_REGFUNC_EXIT for $TIME seconds\n" >> $REPORT
 echo -e "\nFinish test"
-echo "Waiting 15 seconds"
+echo "Wait 15 seconds.."
 sleep 15
 
 # error handling
@@ -124,7 +124,7 @@ done
 SIP_REGLOAD_EXIT=$?
 echo -e "    SIP Registrar Load Test result: $SIP_REGLOAD_EXIT for $TIME seconds\n" >> $REPORT
 echo -e "\nFinish test"
-echo "Waiting 15 seconds"
+echo "Wait 15 seconds.."
 sleep 15
 
 # error handling
@@ -144,5 +144,5 @@ fi
 echo -e "\nUndeploy SIP JDBC Registrar Example\n"
 cd ..
 ant undeploy-all
-echo "Waiting 30 seconds"
+echo "Wait 30 seconds.."
 sleep 30
