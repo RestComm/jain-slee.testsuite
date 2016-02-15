@@ -223,7 +223,7 @@ do
     google-talk-bot)
       ;;
     *)
-      check $dir deploy-all 7 undeploy-all 7
+      check $dir deploy-all 10 undeploy-all 10
       ;;
   esac
 done
