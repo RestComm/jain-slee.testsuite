@@ -112,41 +112,41 @@ sleep 10
 echo -e "\n     RAs:\n" >> $REPORT
 cd $JSLEE_HOME/resources
 
-check diameter-base deploy 10 undeploy 10
+check diameter-base deploy 7 undeploy 7
 
 ant -f diameter-base/build.xml deploy
-echo "Wait 10 seconds.."
-sleep 10
-check diameter-cca deploy 10 undeploy 10
+echo "Wait 7 seconds.."
+sleep 7
+check diameter-cca deploy 7 undeploy 7
 
 ant -f diameter-cca/build.xml deploy
-echo "Wait 10 seconds.."
-sleep 10
+echo "Wait 7 seconds.."
+sleep 7
 
-check diameter-gx deploy 10 undeploy 10
-check diameter-rx deploy 10 undeploy 10
+check diameter-gx deploy 7 undeploy 7
+check diameter-rx deploy 7 undeploy 7
 
 ant -f diameter-cca/build.xml undeploy
-echo "Wait 10 seconds.."
-sleep 10
+echo "Wait 7 seconds.."
+sleep 7
 
-check diameter-cx-dx deploy 10 undeploy 10
-check diameter-gq deploy 10 undeploy 10
-check diameter-rf deploy 10 undeploy 10
-check diameter-ro deploy 10 undeploy 10
-check diameter-s6a deploy 10 undeploy 10
-check diameter-sh-client deploy 10 undeploy 10
-check diameter-sh-server deploy 10 undeploy 10
+check diameter-cx-dx deploy 7 undeploy 7
+check diameter-gq deploy 7 undeploy 7
+check diameter-rf deploy 7 undeploy 7
+check diameter-ro deploy 7 undeploy 7
+check diameter-s6a deploy 7 undeploy 7
+check diameter-sh-client deploy 7 undeploy 7
+check diameter-sh-server deploy 7 undeploy 7
 
 echo -e "\n    Enablers:\n" >> $REPORT
 
 cd $JSLEE_HOME/enablers
-check hss-client deploy-all 10 undeploy-all 10
+check hss-client deploy-all 7 undeploy-all 7
 
 cd $JSLEE_HOME/resources
 ant -f diameter-base/build.xml undeploy
-echo "Wait 10 seconds.."
-sleep 10
+echo "Wait 7 seconds.."
+sleep 7
 
 # Remove Diameter Mux sar from server/default/deploy
 echo -e "\n    Undeploy jDiameter Stack Mux\n" >> $REPORT
@@ -163,8 +163,8 @@ echo -e "\n    RAs:\n" >> $REPORT
 echo -e "    Deploy jSS7 Stack\n" >> $REPORT
 cd $SS7_STACK
 ant deploy
-echo "Wait 15 seconds.."
-sleep 15
+echo "Wait 7 seconds.."
+sleep 7
 
 cd $JSLEE_HOME/resources
 SS7_RA="map cap tcap isup"
@@ -181,8 +181,8 @@ done
 echo -e "\n    Undeploy jSS7 Stack\n" >> $REPORT
 cd $SS7_STACK
 ant undeploy
-echo "Wait 15 seconds.."
-sleep 15
+echo "Wait 7 seconds.."
+sleep 7
 
 # Other
 # Start SMPP Server for SMPP RA
@@ -198,7 +198,7 @@ do
   if [ "$dir" == "${dir%diameter*}" ] && [ "${SS7_RA/$dir}" = "$SS7_RA" ]
   then
     echo "${dir} is not in Diameter and SS7"
-    check $dir deploy 15 undeploy 15
+    check $dir deploy 7 undeploy 7
   fi
 done
 
@@ -215,15 +215,15 @@ do
   echo ${dir##*/}
   case $dir in
     call-controller2)
-      check $dir deploy-all 15 undeploy-all 30
+      check $dir deploy-all 10 undeploy-all 20
       ;;
     slee-connectivity)
-      check $dir deploy 15 undeploy 15
+      check $dir deploy 7 undeploy 7
       ;;
     google-talk-bot)
       ;;
     *)
-      check $dir deploy-all 15 undeploy-all 15
+      check $dir deploy-all 7 undeploy-all 7
       ;;
   esac
 done
@@ -238,7 +238,7 @@ do
   if [ $dir != "hss-client" ]
   then
     echo $dir
-    check $dir deploy-all 15 undeploy-all 15
+    check $dir deploy-all 7 undeploy-all 7
   fi
 done
 
