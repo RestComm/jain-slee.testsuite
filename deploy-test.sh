@@ -98,7 +98,7 @@ if [ "$START" -eq 0 ]; then
 fi
 
 echo "================================================================================" >> $REPORT
-echo "Deployment Test Report\n" >> $REPORT
+echo "Deployment Test Report" >> $REPORT
 echo "================================================================================" >> $REPORT
 
 # Diameter
@@ -244,7 +244,7 @@ done
 
 echo -e "\nDeploy Summary:  $DEPLOY_ERRCOUNT error(s)\n"
 echo -e "\nDeploy Summary:  $DEPLOY_ERRCOUNT error(s)\n" >> $REPORT
-echo "================================================================================" >> $REPORTS
+echo "================================================================================" >> $REPORT
 if [ "$DEPLOY_ERRCOUNT" == 0 ]
 then
   export SUCCESS=1
