@@ -164,7 +164,7 @@ if [ -f $UAC_ERRORS ]; then
   NUMOFLINES=$(wc -l < $UAC_ERRORS)
   WATCHDOG=$(grep -c "Overload warning: the minor watchdog timer" $UAC_ERRORS)
   TEST=$((NUMOFLINES-1-WATCHDOG))
-  if [ "$TEST" -qt 0 ]
+  if [ "$TEST" -gt 0 ]
   then
     export SUCCESS=0
     echo "WATCHDOG: $WATCHDOG of NUMOFLINES: $NUMOFLINES"
