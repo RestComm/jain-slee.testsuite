@@ -11,7 +11,7 @@ export JAVA_OPTS="-Xms1024m -Xmx1024m -XX:PermSize=128M -XX:MaxPermSize=256M -XX
 
 export SIPP=$JSLEE/test-tools/sipp/sipp
 
-export LBVERSION=2.0.22
+export LBVERSION=2.0.24
 export LBTEST=$JSLEE/test-tools/load-balancer
 export LBPATH=$JSLEE/extra/sip-balancer
 
