@@ -174,7 +174,7 @@ if [ -f $UAC_ERRORS ]; then
 fi
 
 echo "Stopping Cluster nodes and Load Balancer."
-echo "Wait 10 seconds.."
+echo "Wait 20 seconds.."
 
 #pkill -TERM -P $NODE1_PID
 #sleep 10
@@ -188,4 +188,5 @@ wait $LB_PID 2>/dev/null
 cd $LOG
 find . -name 'load-balancer.log*' -exec bash -c 'mv $0 ${0/load-balancer/lb-b2bua-confirmed-failover-loadbalancer}' {} \;
 
+sleep 10
 exit $SUCCESS
