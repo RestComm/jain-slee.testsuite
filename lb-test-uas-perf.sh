@@ -14,6 +14,8 @@ export SUCCESS=0
 echo -e "\nUAS Performance Test\n"
 echo -e "Start Load Balancer and Cluster\n"
 
+echo $PWD
+
 export JAVA_OPTS="-Xms1024m -Xmx1024m -XX:PermSize=128M -XX:MaxPermSize=256M -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.local.only=false"
 java $JAVA_OPTS -DlogConfigFile=$LBTEST/lb-log4j.xml -jar $LBPATH/sip-balancer-jar-$LBVERSION-jar-with-dependencies.jar -mobicents-balancer-config=$LBTEST/lb-configuration.properties &
 export LB_PID="$!"
@@ -170,7 +172,10 @@ sleep 10
 kill $LB_PID
 wait $LB_PID 2>/dev/null
 
+echo $PWD
 cd $LOG
-find . -name 'load-balancer.log*' -exec bash -c 'mv $0 ${0/load-balancer/lb-uas-load-loadbalancer}' {} \;
+echo $PWD
+
+#find . -name 'load-balancer.log*' -exec bash -c 'mv $0 ${0/load-balancer/lb-uas-load-loadbalancer}' {} \;
 
 exit $SUCCESS
