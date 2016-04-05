@@ -12,7 +12,8 @@ export JAVA_OPTS="-Xms1024m -Xmx1024m -XX:PermSize=128M -XX:MaxPermSize=256M -XX
 export SIPP=$JSLEE/test-tools/sipp/sipp
 
 #export LBVERSION=2.0.24
-export LBVERSION=$LBVERSION_JOB
+export LBVERSION=2.0.28
+#export LBVERSION=$LBVERSION_JOB
 echo "LBVERSION: $LBVERSION"
 echo "LBVERSION_JOB: $LBVERSION_JOB"
 
