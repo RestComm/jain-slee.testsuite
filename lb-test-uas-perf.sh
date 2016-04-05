@@ -172,10 +172,8 @@ sleep 10
 kill $LB_PID
 wait $LB_PID 2>/dev/null
 
-echo $PWD
 cd $LOG
 echo $PWD
-
-#find . -name 'load-balancer.log*' -exec bash -c 'mv $0 ${0/load-balancer/lb-uas-load-loadbalancer}' {} \;
+find . -name 'load-balancer.log*' -exec bash -c 'mv $0 ${0/load-balancer/lb-uas-load-loadbalancer}' {} \;
 
 exit $SUCCESS
