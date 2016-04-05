@@ -13,6 +13,9 @@ export SIPP=$JSLEE/test-tools/sipp/sipp
 
 #export LBVERSION=2.0.24
 export LBVERSION=$LBVERSION_JOB
+echo "LBVERSION: $LBVERSION"
+echo "LBVERSION_JOB: LBVERSION_JOB"
+
 export LBTEST=$JSLEE/test-tools/load-balancer
 export LBPATH=$JSLEE/extra/sip-balancer
 
