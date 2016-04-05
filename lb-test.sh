@@ -14,7 +14,7 @@ export SIPP=$JSLEE/test-tools/sipp/sipp
 #export LBVERSION=2.0.24
 export LBVERSION=$LBVERSION_JOB
 echo "LBVERSION: $LBVERSION"
-echo "LBVERSION_JOB: LBVERSION_JOB"
+echo "LBVERSION_JOB: $LBVERSION_JOB"
 
 export LBTEST=$JSLEE/test-tools/load-balancer
 export LBPATH=$JSLEE/extra/sip-balancer
@@ -27,7 +27,7 @@ echo -e "\nLoadBalancer Tests Report\n" >> $REPORT
 
 ./lb-test-uas-perf.sh
 export UAS_PERF_SUCCESS=$?
-#exit $UAS_PERF_SUCCESS
+exit $UAS_PERF_SUCCESS
 
 ./lb-test-uas-failover.sh
 export UAS_FAILOVER_SUCCESS=$?
