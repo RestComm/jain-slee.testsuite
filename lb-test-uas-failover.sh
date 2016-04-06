@@ -134,16 +134,19 @@ echo -e "UAS Failover Test is Finished: $SIP_UAS_PERF_EXIT for $TIME seconds\n"
 echo -e "    UAS Failover Test is Finished: $SIP_UAS_PERF_EXIT for $TIME seconds\n" >> $REPORT
 
 echo "Stopping Cluster nodes and Load Balancer."
-echo "Wait 10 seconds.."
+echo "Wait 20 seconds.."
 
 #pkill -TERM -P $NODE1_PID
 #sleep 10
 pkill -TERM -P $NODE2_PID
-sleep 10
+sleep 20
 
 #kill -9 $LB_PID
 kill $LB_PID
 wait $LB_PID 2>/dev/null
+
+echo "Wait 20 seconds.."
+sleep 20
 
 cd $LOG
 find . -name 'load-balancer.log*' -exec bash -c 'mv $0 ${0/load-balancer/lb-uas-failover-loadbalancer}' {} \;

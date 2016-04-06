@@ -28,7 +28,7 @@ echo -e "\nLoadBalancer Tests Report\n" >> $REPORT
 
 ./lb-test-uas-perf.sh
 export UAS_PERF_SUCCESS=$?
-exit $UAS_PERF_SUCCESS
+#exit $UAS_PERF_SUCCESS
 
 ./lb-test-uas-failover.sh
 export UAS_FAILOVER_SUCCESS=$?
