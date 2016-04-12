@@ -38,8 +38,9 @@ export UAS_FAILOVER_SUCCESS=$?
 
 ./lb-test-prepare.sh b2bua-lb
 
-./lb-test-b2b-func.sh
-export B2B_FUNC_SUCCESS=$?
+#./lb-test-b2b-func.sh
+#export B2B_FUNC_SUCCESS=$?
+export B2B_FUNC_SUCCESS=1
 #exit $B2B_FUNC_SUCCESS
 
 ./lb-test-b2b-failover1.sh
