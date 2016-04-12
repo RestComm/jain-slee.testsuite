@@ -12,10 +12,8 @@ export JAVA_OPTS="-Xms1024m -Xmx1024m -XX:PermSize=128M -XX:MaxPermSize=256M -XX
 export SIPP=$JSLEE/test-tools/sipp/sipp
 
 #export LBVERSION=2.0.24
-export LBVERSION=2.0.28
-#export LBVERSION=$LBVERSION_JOB
+#export LBVERSION=2.0.30
 echo "LBVERSION: $LBVERSION"
-echo "LBVERSION_JOB: $LBVERSION_JOB"
 
 export LBTEST=$JSLEE/test-tools/load-balancer
 export LBPATH=$JSLEE/extra/sip-balancer
@@ -28,7 +26,7 @@ echo -e "\nLoadBalancer Tests Report\n" >> $REPORT
 
 ./lb-test-uas-perf.sh
 export UAS_PERF_SUCCESS=$?
-#exit $UAS_PERF_SUCCESS
+exit $UAS_PERF_SUCCESS
 
 ./lb-test-uas-failover.sh
 export UAS_FAILOVER_SUCCESS=$?
