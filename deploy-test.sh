@@ -145,8 +145,26 @@ sleep 7
 
 echo -e "\n    Enablers:\n" >> $REPORT
 
+# fix hss-client deploy-all
+cd $JSLEE_HOME/resources
+ant -f diameter-base/build.xml deploy
+echo "Wait 7 seconds.."
+sleep 7
+ant -f diameter-sh-client/build.xml deploy
+echo "Wait 7 seconds.."
+sleep 7
+
 cd $JSLEE_HOME/enablers
-check hss-client deploy-all 10 undeploy-all 10
+check hss-client deploy 10 undeploy 10
+
+# fix hss-client undeploy-all
+cd $JSLEE_HOME/resources
+ant -f diameter-sh-client/build.xml undeploy
+echo "Wait 7 seconds.."
+sleep 7
+ant -f diameter-base/build.xml undeploy
+echo "Wait 7 seconds.."
+sleep 7
 
 # Remove Diameter Mux sar from server/default/deploy
 echo -e "\n    Undeploy jDiameter Stack Mux\n" >> $REPORT
