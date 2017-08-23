@@ -1,1 +1,2 @@
-TestSuite for JAIN SLEE
+# jain-slee.testsuite
+TestSuite for RestComm JAIN SLEE
