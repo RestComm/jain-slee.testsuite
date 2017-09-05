@@ -20,7 +20,6 @@ UAC_PID=$(ps aux | grep '[s]cenario.xml' | awk '{print $2}')
 if [ "$UAC_PID" == "" ]; then exit -1; fi
 echo "UAC_PID: $UAC_PID"
 
-#sleep 120s
 TIME=0
 while :; do
   sleep 1
@@ -74,7 +73,6 @@ UAC_PID=$(ps aux | grep '[r]egistrar-functionality' | awk '{print $2}')
 if [ "$UAC_PID" == "" ]; then exit -1; fi
 echo "UAC_PID: $UAC_PID"
 
-#sleep 120s
 TIME=0
 while :; do
   sleep 1
@@ -112,7 +110,6 @@ UAC_PID=$(ps aux | grep '[r]egistrar-load-test' | awk '{print $2}')
 if [ "$UAC_PID" == "" ]; then exit -1; fi
 echo "UAC_PID: $UAC_PID"
 
-#sleep 120s
 TIME=0
 while :; do
   sleep 1

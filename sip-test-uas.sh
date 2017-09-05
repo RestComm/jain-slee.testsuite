@@ -22,7 +22,6 @@ UAC_PID=$(ps aux | grep '[u]ac.xml' | awk '{print $2}')
 if [ "$UAC_PID" == "" ]; then exit -1; fi
 echo "UAC_PID: $UAC_PID"
 
-#sleep 120s
 TIME=0
 while :; do
   sleep 1
@@ -52,7 +51,6 @@ echo -e "\nStart Performance Test\n"
 cp $LOG/sip-jboss.log $LOG/temp-uas-1.log
 
 $SIPP 127.0.0.1:5060 -inf users.csv -trace_err -sf uac.xml -i 127.0.0.1 -p 5050 -r 1000 -rp 90s -m 1200 -l 1000 -bg -skip_rlimit
-#$SIPP 127.0.0.1:5060 -inf users.csv -trace_err -sf uac.xml -i 127.0.0.1 -p 5050 -r 50 -m 1200 -l 1000 -bg
 
 UAC_PID=$(ps aux | grep '[u]ac.xml' | awk '{print $2}')
 if [ "$UAC_PID" == "" ]; then
@@ -60,7 +58,6 @@ if [ "$UAC_PID" == "" ]; then
 fi
 echo "UAC_PID: $UAC_PID"
 
-#sleep 210s
 TIME=0
 while :; do
   sleep 1

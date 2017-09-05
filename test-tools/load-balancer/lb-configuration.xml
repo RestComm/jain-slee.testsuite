@@ -2,8 +2,6 @@
 <load-balancer-properties>
 <common>
   <host>127.0.0.1</host>
-  <rmiRegistryPort>2000</rmiRegistryPort>
-  <rmiRemoteObjectPort>2001</rmiRemoteObjectPort>
   <nodeTimeout>8400</nodeTimeout>
   <heartbeatInterval>150</heartbeatInterval>
   <statisticPort>2006</statisticPort>
@@ -155,5 +153,12 @@
 		<value>false</value>
 	</property>
 </sipStack>
+<heartbeat configclass = "org.mobicents.tools.heartbeat.rmi.HeartbeatConfigRmi">
+        <heartbeatConfig>
+            <ProtocolClassName>org.mobicents.tools.heartbeat.rmi.ServerControllerRmi</ProtocolClassName>
+            <rmiRegistryPort>2000</rmiRegistryPort>
+            <rmiRemoteObjectPort>2001</rmiRemoteObjectPort>
+        </heartbeatConfig>
+    </heartbeat>
 </load-balancer-properties>
 

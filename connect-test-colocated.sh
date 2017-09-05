@@ -60,8 +60,8 @@ TWIDDLE_PASSWORD=test
 sh $JBOSS_HOME/bin/add-user.sh $TWIDDLE_USER $TWIDDLE_PASSWORD
 sleep 1
 
-echo "Execute: twiddle/twiddle.sh --user=qwerty --password=Qwerty\!1 -s service:jmx:http-remoting-jmx://127.0.0.1:9990 invoke org.mobicents.slee:type=SleeConnectionTest fireEvent helloworld"
-sh $JSLEE_HOME/tools/twiddle/twiddle.sh --user=$TWIDDLE_USER --password=$TWIDDLE_PASSWORD -s service:jmx:http-remoting-jmx://127.0.0.1:9990 invoke org.mobicents.slee:type=SleeConnectionTest fireEvent helloworld
+echo "Execute: twiddle/twiddle.sh --user=qwerty --password=Qwerty\!1 -s service:jmx:http-remoting-jmx://127.0.0.1:9990 invoke org.restcomm.slee:type=SleeConnectionTest fireEvent helloworld"
+sh $JSLEE_HOME/tools/twiddle/twiddle.sh --user=$TWIDDLE_USER --password=$TWIDDLE_PASSWORD -s service:jmx:http-remoting-jmx://127.0.0.1:9990 invoke org.restcomm.slee:type=SleeConnectionTest fireEvent helloworld
 echo "Wait 10 seconds.."
 sleep 10
 

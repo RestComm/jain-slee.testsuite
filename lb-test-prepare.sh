@@ -1,6 +1,4 @@
 #!/bin/bash
-#export JSLEE=/opt/mobicents/restcomm-slee-2.8.17.46
-#export JBOSS_HOME=$JSLEE/jboss-5.1.0.GA
 
 # Remove old nodes
 echo "Remove old nodes server1 and server2"
@@ -11,10 +9,6 @@ rm -Rf $SERVER2
 echo "Creating copies for server1 and server2"
 cp -r $JSLEE_HOME $SERVER1
 cp -r $JSLEE_HOME $SERVER2
-
-# change licenseKey
-sed -i 's/\[license key\]/server1key/g' $SERVER1/wildfly-*/telestax-license/telestax-license.xml
-sed -i 's/\[license key\]/server2key/g' $SERVER2/wildfly-*/telestax-license/telestax-license.xml
 
 # change rmi address for second server
 sed -i 's/name=\"rmiAddress\" value=\"127.0.0.1\"/name=\"rmiAddress\" value=\"127.0.0.2\"/g' $SERVER2/wildfly-10.1.0.Final/standalone/configuration/standalone.xml

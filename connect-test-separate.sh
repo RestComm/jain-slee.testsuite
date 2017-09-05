@@ -98,8 +98,8 @@ cp $LOG/connect-separate-jboss-2.log $LOG/temp-connect-separate-jboss-21.log
 
 mkdir $WILDFLY_FOLDER/tools
 cp -R $JSLEE_HOME/tools/twiddle $WILDFLY_FOLDER/tools
-echo "Execute: twiddle/twiddle.sh --user=test --password=test -s service:jmx:http-remoting-jmx://127.0.0.2:9990 invoke org.mobicents.slee:type=SleeConnectionTest fireEvent helloworld"
-sh $WILDFLY_FOLDER/tools/twiddle/twiddle.sh --user=$TWIDDLE_USER --password=$TWIDDLE_PASSWORD -s service:jmx:http-remoting-jmx://$WILDFLY_HOSTNAME:9990 invoke org.mobicents.slee:type=SleeConnectionTest fireEvent helloworld
+echo "Execute: twiddle/twiddle.sh --user=test --password=test -s service:jmx:http-remoting-jmx://127.0.0.2:9990 invoke org.restcomm.slee:type=SleeConnectionTest fireEvent helloworld"
+sh $WILDFLY_FOLDER/tools/twiddle/twiddle.sh --user=$TWIDDLE_USER --password=$TWIDDLE_PASSWORD -s service:jmx:http-remoting-jmx://$WILDFLY_HOSTNAME:9990 invoke org.restcomm.slee:type=SleeConnectionTest fireEvent helloworld
 echo "Wait 5 seconds.."
 sleep 5
 

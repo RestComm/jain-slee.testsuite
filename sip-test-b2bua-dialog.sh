@@ -10,7 +10,6 @@ cp $LOG/sip-jboss.log $LOG/temp-b2bua-dialog-0.log
 cd sipp
 
 $SIPP -trace_err -sf uas_DIALOG.xml -i 127.0.0.1 -p 5090 -r 1 -m 10 -l 100 -bg
-#UAS_PID=$!
 UAS_PID=$(ps aux | grep '[u]as_DIALOG.xml' | awk '{print $2}')
 if [ "$UAS_PID" == "" ]; then
   exit -1
@@ -19,14 +18,12 @@ echo "UAS: $UAS_PID"
 
 sleep 1
 $SIPP 127.0.0.1:5060 -trace_err -sf uac_DIALOG.xml -i 127.0.0.1 -p 5050 -r 1 -m 10 -l 100 -bg
-#UAC_PID=$!
 UAC_PID=$(ps aux | grep '[u]ac_DIALOG.xml' | awk '{print $2}')
 if [ "$UAC_PID" == "" ]; then
   exit
 fi
 echo "UAC: $UAC_PID"
 
-#sleep 120s
 TIME=0
 while :; do
   sleep 1
@@ -60,8 +57,6 @@ echo -e "\nStart Performance Test\n"
 cp $LOG/sip-jboss.log $LOG/temp-b2bua-dialog-1.log
 
 $SIPP -trace_err -sf uas_DIALOG.xml -i 127.0.0.1 -p 5090 -r 400 -rp 85s -m 500 -l 400 -bg
-#$SIPP -trace_err -sf uas_DIALOG.xml -i 127.0.0.1 -p 5090 -r 10 -m 500 -l 400 -bg -skip_rlimit
-#UAS_PID=$!
 UAS_PID=$(ps aux | grep '[u]as_DIALOG.xml' | awk '{print $2}')
 if [ "$UAS_PID" == "" ]; then
   exit -1
@@ -70,15 +65,12 @@ echo "UAS: $UAS_PID"
 
 sleep 1
 $SIPP 127.0.0.1:5060 -trace_err -sf uac_DIALOG.xml -i 127.0.0.1 -p 5050 -r 400 -rp 85s -m 500 -l 400 -bg
-#$SIPP 127.0.0.1:5060 -trace_err -sf uac_DIALOG.xml -i 127.0.0.1 -p 5050 -r 10 -m 500 -l 400 -bg -skip_rlimit
-#UAC_PID=$!
 UAC_PID=$(ps aux | grep '[u]ac_DIALOG.xml' | awk '{print $2}')
 if [ "$UAC_PID" == "" ]; then
   exit
 fi
 echo "UAC: $UAC_PID"
 
-#sleep 120s
 TIME=0
 while :; do
   sleep 1

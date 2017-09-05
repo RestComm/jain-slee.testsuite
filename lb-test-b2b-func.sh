@@ -1,12 +1,4 @@
 #!/bin/bash
-#export JSLEE=/opt/mobicents/mobicents-slee-2.8.14.40
-#export JBOSS_HOME=$JSLEE/jboss-5.1.0.GA
-#export JAVA_OPTS="-Xms1024m -Xmx1024m -XX:PermSize=128M -XX:MaxPermSize=256M -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode"
-#export SIPP=$PWD/sipp
-
-#export LBVERSION=2.0.17
-#rm -rf logs
-#mkdir logs
 
 export START=1
 export SUCCESS=0

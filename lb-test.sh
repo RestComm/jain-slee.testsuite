@@ -3,7 +3,6 @@
 export JSLEE=$PWD
 export LOG=$JSLEE/test-logs
 export REPORTS=$JSLEE/test-reports
-#export REPORT=$REPORTS/loadbalancer-report.log
 
 cd $JSLEE_HOME/wildfly-*
 export JBOSS_HOME=$PWD

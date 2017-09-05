@@ -3,11 +3,8 @@
 export JSLEE_HOME=$PWD
 export LOG=$JSLEE_HOME/test-logs
 export REPORTS=$JSLEE_HOME/test-reports
-#export REPORT=$REPORTS/connect-report.log
 export CONNECT_ERRCOUNT=0
 
-#rm -rf $LOG/*
-#rm -rf $REPORTS/*
 mkdir -p $LOG
 mkdir -p $REPORTS
 

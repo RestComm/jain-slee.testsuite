@@ -12,11 +12,6 @@ $SIPP -v
 export JBOSS_HOME=$JSLEE_HOME/wildfly-10.1.0.Final
 echo $JBOSS_HOME
 
-#rm -f $LOG/sip-jboss.log
-#rm -f $REPORT
-#mkdir -p $LOG
-#mkdir -p $REPORTS
-
 $JBOSS_HOME/bin/standalone.sh > $LOG/sip-jboss.log 2>&1 &
 JBOSS_PID="$!"
 echo "JBOSS_PID: $JBOSS_PID"
@@ -34,14 +29,6 @@ done
 echo "================================================================================" >> $REPORT
 echo "SIP Tests Report" >> $REPORT
 echo "================================================================================" >> $REPORT
-
-#echo -e "Exit code:
-#    0: All calls were successful
-#    1: At least one call failed
-#   97: exit on internal command. Calls may have been processed
-#   99: Normal exit without calls processed
-#   -1: Fatal error
-#   -2: Fatal error binding a socket\n" >> $REPORT
 
 # SIP UAS
 killall sipp

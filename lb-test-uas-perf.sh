@@ -1,12 +1,4 @@
 #!/bin/bash
-#export JSLEE=/opt/mobicents/mobicents-slee-2.8.14.40
-#export JBOSS_HOME=$JSLEE/jboss-5.1.0.GA
-#export JAVA_OPTS="-Xms1024m -Xmx1024m -XX:PermSize=128M -XX:MaxPermSize=256M -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode"
-#export SIPP=$PWD/sipp
-
-#export LBVERSION=2.0.17
-#rm -rf logs
-#mkdir logs
 
 export START=1
 export SUCCESS=0
@@ -14,8 +6,8 @@ export SUCCESS=0
 echo -e "\nUAS Performance Test\n"
 echo -e "Start Load Balancer and Cluster\n"
 
-export JAVA_OPTS="-Xms512m -Xmx512m -XX:PermSize=128M -XX:MaxPermSize=256M -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.local.only=false -Dtelscale.license.dir=$LBPATH/license -Dtelscale.license.key.location=$LBPATH/license"
-java $JAVA_OPTS -DlogConfigFile=$LBTEST/lb-log4j.xml -jar $LBPATH/sip-balancer-jar-*-jar-with-dependencies.jar -mobicents-balancer-config=$LBTEST/lb-configuration.properties &
+export JAVA_OPTS="-Xms512m -Xmx512m -XX:PermSize=128M -XX:MaxPermSize=256M -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.local.only=false"
+java $JAVA_OPTS -DlogConfigFile=$LBTEST/lb-log4j.xml -jar $LBPATH/sip-balancer-jar-*-jar-with-dependencies.jar -mobicents-balancer-config=$LBTEST/lb-configuration.xml &
 export LB_PID="$!"
 echo "Load Balancer: $LB_PID"
 echo "Wait 10 seconds.."

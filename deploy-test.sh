@@ -114,8 +114,8 @@ function stopSlee
 cd $JSLEE_HOME/wildfly-*
 export JBOSS_HOME=$PWD
 cd -
-export DIAMETER_STACK=$JSLEE_HOME/extra/telscale-diameter/TelScale-diameter-mux-wildfly-*
-export SS7_STACK=$JSLEE_HOME/extra/telscale-ss7/TelScale-jss7-*/ss7-wildfly
+export DIAMETER_STACK=$JSLEE_HOME/extra/restcomm-diameter
+export SS7_STACK=$JSLEE_HOME/extra/restcomm-ss7/restcomm-jss7-*/ss7-wildfly
 echo $JBOSS_HOME
 
 echo "================================================================================" >> $REPORT
@@ -128,18 +128,19 @@ startSlee
 
 echo -e "\n     RAs:\n" >> $REPORT
 cd $JSLEE_HOME/resources
+check smpp deploy 7 undeploy 7
 check tftp-server deploy 7 undeploy 7
 check jdbc deploy 7 undeploy 7
 check xmpp deploy 7 undeploy 7
 check mgcp deploy 7 undeploy 7
 check mscontrol deploy 7 undeploy 7
 check xcap-client deploy 7 undeploy 7
-check sip11 deploy 7 undeploy 7
+check sip11 deploy 15 undeploy 15
 
 stopSlee
 
 #HTTP
-cd $JSLEE_HOME/extra/telscale-http
+cd $JSLEE_HOME/extra/restcomm-http
 ant deploy
 
 startSlee 
@@ -154,7 +155,7 @@ check rest-client deploy-all 7 undeploy-all 7
 
 stopSlee
 
-cd $JSLEE_HOME/extra/telscale-http
+cd $JSLEE_HOME/extra/restcomm-http
 ant undeploy
 
 # Diameter
@@ -284,7 +285,7 @@ check sip-b2bua deploy-all 15 undeploy-all 15
 check sip-jdbc-registrar deploy-all 15 undeploy-all 15
 check sip-uas deploy-all 15 undeploy-all 15
 check sip-wake-up deploy-all 15 undeploy-all 15
-# sleep required for sip-wake-up
+# required for sip-wake-up
 sleep 60
 
 # Enablers
@@ -293,8 +294,6 @@ echo -e "\n    Enablers:\n" >> $REPORT
 cd $JSLEE_HOME/enablers
 
 check rest-client deploy-all 15 undeploy-all 15
-check sip-publication-client deploy-all 15 undeploy-all 15
-check sip-subscription-client deploy-all 15 undeploy-all 15
 check xdm-client deploy-all 15 undeploy-all 15
 check sip-publication-client deploy-all 15 undeploy-all 15
 check sip-subscription-client deploy-all 15 undeploy-all 15
@@ -309,7 +308,7 @@ fi
 
 stopSlee
 
-#rm -f $LOG/temp-*-0.log
-#rm -f $LOG/temp-*-1.log
+rm -f $LOG/temp-*-0.log
+rm -f $LOG/temp-*-1.log
 
 exit $SUCCESS
