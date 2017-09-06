@@ -128,7 +128,7 @@ startSlee
 
 echo -e "\n     RAs:\n" >> $REPORT
 cd $JSLEE_HOME/resources
-check smpp deploy 7 undeploy 7
+#check smpp deploy 7 undeploy 7
 check tftp-server deploy 7 undeploy 7
 check jdbc deploy 7 undeploy 7
 check xmpp deploy 7 undeploy 7
