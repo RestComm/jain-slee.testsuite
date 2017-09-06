@@ -159,65 +159,65 @@ cd $JSLEE_HOME/extra/restcomm-http
 ant undeploy
 
 # Diameter
-echo -e "\n    Deploy jDiameter Stack Mux" >> $REPORT
-cd $DIAMETER_STACK
-ant deploy
-cd -
+#echo -e "\n    Deploy jDiameter Stack Mux" >> $REPORT
+#cd $DIAMETER_STACK
+#ant deploy
+#cd -
 
-startSlee
-if [ "$START" -eq 0 ]; then
-	  echo "There is a problem with starting JBoss!"
-	  stopSlee
-	  exit $SUCCESS
-	fi
+#startSlee
+#if [ "$START" -eq 0 ]; then
+#	  echo "There is a problem with starting JBoss!"
+#	  stopSlee
+#	  exit $SUCCESS
+#	fi
 
-cd $JSLEE_HOME/resources
+#cd $JSLEE_HOME/resources
 
-check diameter-base deploy 7 undeploy 7
+#check diameter-base deploy 7 undeploy 7
 
-ant -f diameter-base/build.xml deploy
-echo "Wait 7 seconds.."
-sleep 7
+#ant -f diameter-base/build.xml deploy
+#echo "Wait 7 seconds.."
+#sleep 7
 
-check diameter-cca deploy 7 undeploy 7
+#check diameter-cca deploy 7 undeploy 7
 
-ant -f diameter-cca/build.xml deploy
-echo "Wait 7 seconds.."
-sleep 7
+#ant -f diameter-cca/build.xml deploy
+#echo "Wait 7 seconds.."
+#sleep 7
 
-check diameter-gx deploy 7 undeploy 7
-check diameter-rx deploy 7 undeploy 7
+#check diameter-gx deploy 7 undeploy 7
+#check diameter-rx deploy 7 undeploy 7
 
-ant -f diameter-cca/build.xml undeploy
-echo "Wait 7 seconds.."
-sleep 7
+#ant -f diameter-cca/build.xml undeploy
+#echo "Wait 7 seconds.."
+#sleep 7
 
-check diameter-cx-dx deploy 7 undeploy 7
-check diameter-gq deploy 7 undeploy 7
-check diameter-rf deploy 7 undeploy 7
-check diameter-ro deploy 7 undeploy 7
-check diameter-s6a deploy 7 undeploy 7
-check diameter-sh-client deploy 7 undeploy 7
-check diameter-sh-server deploy 7 undeploy 7
+#check diameter-cx-dx deploy 7 undeploy 7
+#check diameter-gq deploy 7 undeploy 7
+#check diameter-rf deploy 7 undeploy 7
+#check diameter-ro deploy 7 undeploy 7
+#check diameter-s6a deploy 7 undeploy 7
+#check diameter-sh-client deploy 7 undeploy 7
+#check diameter-sh-server deploy 7 undeploy 7
 
-cd $JSLEE_HOME/resources
-ant -f diameter-base/build.xml undeploy
-echo "Wait 7 seconds.."
-sleep 7
+#cd $JSLEE_HOME/resources
+#ant -f diameter-base/build.xml undeploy
+#echo "Wait 7 seconds.."
+#sleep 7
 
-echo -e "\n    Enablers:\n" >> $REPORT
+#echo -e "\n    Enablers:\n" >> $REPORT
 
-cd $JSLEE_HOME/enablers
-check hss-client deploy-all 10 undeploy-all 10
+#cd $JSLEE_HOME/enablers
+#check hss-client deploy-all 10 undeploy-all 10
 
 # Remove Diameter Mux
 
-echo -e "\n    Undeploy jDiameter Stack Mux\n" >> $REPORT
-cd $DIAMETER_STACK
-ant undeploy
-cd -
+#echo -e "\n    Undeploy jDiameter Stack Mux\n" >> $REPORT
+#cd $DIAMETER_STACK
+#ant undeploy
+#cd -
 
-stopSlee
+#stopSlee
 
 #
 echo -e "\n    RAs:\n" >> $REPORT
