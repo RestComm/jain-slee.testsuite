@@ -65,7 +65,7 @@ function check
 # Start JSLEE
 export JBOSS_HOME=$JSLEE_HOME/jboss-5.1.0.GA
 export DIAMETER_STACK=$JSLEE_HOME/extra/restcomm-diameter
-export SS7_STACK=$JSLEE_HOME/extra/restcomm-ss7/restcomm-jss7-*/ss7
+export SS7_STACK=$JSLEE_HOME/extra/restcomm-ss7/restcomm-jss7-*/ss7-jboss
 echo $JBOSS_HOME
 
 export START=1
