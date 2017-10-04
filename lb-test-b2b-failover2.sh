@@ -23,11 +23,12 @@ echo "Load Balancer: $LB_PID"
 echo "Wait 10 seconds.."
 sleep 10
 
-$JBOSS_HOME/bin/run.sh -c port-1 -Djboss.service.binding.set=ports-01 -Djboss.messaging.ServerPeerID=0 -Dsession.serialization.jboss=false > $LOG/lb-b2bua-early-failover-port-1-jboss.log 2>&1 &
+$LB_JBOSS1/bin/run.sh -c default -b 127.0.0.1 -Djboss.service.binding.set=ports-01 -Djboss.messaging.ServerPeerID=0 -Dsession.serialization.jboss=false > $LOG/lb-b2bua-early-failover-port-1-jboss.log 2>&1 &
 export NODE1_PID="$!"
 echo "NODE1: $NODE1_PID"
 
-#sleep 10
+sleep 10
+
 TIME=0
 while :; do
   sleep 10
@@ -54,11 +55,12 @@ if [ "$START" -eq 0 ]; then
   exit $SUCCESS
 fi
 
-$JBOSS_HOME/bin/run.sh -c port-2 -Djboss.service.binding.set=ports-02 -Djboss.messaging.ServerPeerID=1 -Dsession.serialization.jboss=false > $LOG/lb-b2bua-early-failover-port-2-jboss.log 2>&1 &
+$LB_JBOSS2/bin/run.sh -c default -b 127.0.0.2 -Djboss.service.binding.set=ports-02 -Djboss.messaging.ServerPeerID=1 -Dsession.serialization.jboss=false > $LOG/lb-b2bua-early-failover-port-2-jboss.log 2>&1 &
 export NODE2_PID="$!"
 echo "NODE2: $NODE2_PID"
 
-#sleep 60
+sleep 10
+
 TIME=0
 while :; do
   sleep 10

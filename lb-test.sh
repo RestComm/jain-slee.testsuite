@@ -18,6 +18,17 @@ echo "LBVERSION: $LBVERSION"
 export LBTEST=$JSLEE/test-tools/load-balancer
 export LBPATH=$JSLEE/extra/sip-balancer
 
+cd $JSLEE/..
+CURR=$PWD
+export LB_HOME1=$CURR/lb1
+export LB_HOME2=$CURR/lb2
+cd $JSLEE
+
+echo "LB_HOME1: $LB_HOME1"
+echo "LB_HOME2: $LB_HOME2"
+export LB_JBOSS1=$LB_HOME1/jboss-5.1.0.GA
+export LB_JBOSS2=$LB_HOME2/jboss-5.1.0.GA
+
 echo -e "\nLoadBalancer Tests Report\n" >> $REPORT
 
 ### UAS

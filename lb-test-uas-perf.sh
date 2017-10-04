@@ -14,18 +14,19 @@ export SUCCESS=0
 echo -e "\nUAS Performance Test\n"
 echo -e "Start Load Balancer and Cluster\n"
 
-export JAVA_OPTS="-Xms512m -Xmx512m -XX:PermSize=128M -XX:MaxPermSize=256M -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.local.only=false"
+export JAVA_OPTS="-Xms1024m -Xmx1024m -XX:PermSize=128M -XX:MaxPermSize=256M -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.local.only=false"
 java $JAVA_OPTS -DlogConfigFile=$LBTEST/lb-log4j.xml -jar $LBPATH/sip-balancer-jar-$LBVERSION-jar-with-dependencies.jar -mobicents-balancer-config=$LBTEST/lb-configuration.xml &
 export LB_PID="$!"
 echo "Load Balancer: $LB_PID"
 echo "Wait 10 seconds.."
 sleep 10
 
-$JBOSS_HOME/bin/run.sh -c port-1 -Djboss.service.binding.set=ports-01 -Djboss.messaging.ServerPeerID=0 -Dsession.serialization.jboss=false > $LOG/lb-uas-load-port-1-jboss.log 2>&1 &
+$LB_JBOSS1/bin/run.sh -c default -b 127.0.0.1 -Djboss.service.binding.set=ports-01 -Djboss.messaging.ServerPeerID=0 -Dsession.serialization.jboss=false > $LOG/lb-uas-load-port-1-jboss.log 2>&1 &
 export NODE1_PID="$!"
 echo "NODE1: $NODE1_PID"
 
-#sleep 10
+sleep 10
+
 TIME=0
 while :; do
   sleep 10
@@ -52,11 +53,12 @@ if [ "$START" -eq 0 ]; then
   exit $SUCCESS
 fi
 
-$JBOSS_HOME/bin/run.sh -c port-2 -Djboss.service.binding.set=ports-02 -Djboss.messaging.ServerPeerID=1 -Dsession.serialization.jboss=false > $LOG/lb-uas-load-port-2-jboss.log 2>&1 &
+$LB_JBOSS2/bin/run.sh -c default -b 127.0.0.2 -Djboss.service.binding.set=ports-02 -Djboss.messaging.ServerPeerID=1 -Dsession.serialization.jboss=false > $LOG/lb-uas-load-port-2-jboss.log 2>&1 &
 export NODE2_PID="$!"
 echo "NODE2: $NODE2_PID"
 
-#sleep 60
+sleep 10
+
 TIME=0
 while :; do
   sleep 10
@@ -86,6 +88,9 @@ else
   wait $LB_PID 2>/dev/null
   exit $SUCCESS
 fi
+
+echo "sleeping 10 sec"
+sleep 10
 
 ####
 #exit 1
