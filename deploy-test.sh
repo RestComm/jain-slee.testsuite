@@ -66,6 +66,7 @@ function check
 export JBOSS_HOME=$JSLEE_HOME/jboss-5.1.0.GA
 export DIAMETER_STACK=$JSLEE_HOME/extra/restcomm-diameter
 export SS7_STACK=$JSLEE_HOME/extra/restcomm-ss7/restcomm-jss7-*/ss7-jboss
+export SMPP_SERVER=$JSLEE_HOME/extra/restcomm-smpp-extensions/restcomm-smpp-extensions-*/jboss5
 echo $JBOSS_HOME
 
 export START=1
@@ -204,12 +205,9 @@ sleep 7
 
 
 # Other
-### comment SMPP RA testing
-# Start SMPP Server for SMPP RA
-#cd $JSLEE_HOME/test-tools/smpp-server
-#java -cp smpp.server-0.0.1-SNAPSHOT.jar:lib/* org.mobicents.tools.smpp.server.ServerSMPP 2775 > $LOG/temp-smpp.server.log 2>&1 &
-#SMPPSERVER_PID=$!
-#echo "SMPP Server: $SMPPSERVER_PID"
+# Deploy SMPP Server for SMPP RA
+cd $SMPP_SERVER
+ant deploy
 
 cd $JSLEE_HOME/resources
 for dir in */
@@ -222,9 +220,8 @@ do
   fi
 done
 
-### comment SMPP RA testing
-# Stop SMPP Server
-kill -9 $SMPPSERVER_PID
+cd $SMPP_SERVER
+ant undeploy
 
 # Examples
 echo -e "\n    Examples:\n" >> $REPORT
@@ -270,9 +267,6 @@ if [ "$DEPLOY_ERRCOUNT" == 0 ]
 then
   export SUCCESS=1
 fi
-
-# Tools
-
 
 pkill -TERM -P $JBOSS_PID
 echo "Wait 10 seconds.."
