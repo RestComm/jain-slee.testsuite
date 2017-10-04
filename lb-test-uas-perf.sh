@@ -21,6 +21,7 @@ echo "Load Balancer: $LB_PID"
 echo "Wait 10 seconds.."
 sleep 10
 
+export JBOSS_HOME=$LB_JBOSS1
 $LB_JBOSS1/bin/run.sh -c default -b 127.0.0.1 -Djboss.service.binding.set=ports-01 -Djboss.messaging.ServerPeerID=0 -Dsession.serialization.jboss=false > $LOG/lb-uas-load-port-1-jboss.log 2>&1 &
 export NODE1_PID="$!"
 echo "NODE1: $NODE1_PID"
@@ -53,6 +54,7 @@ if [ "$START" -eq 0 ]; then
   exit $SUCCESS
 fi
 
+export JBOSS_HOME=$LB_JBOSS2
 $LB_JBOSS2/bin/run.sh -c default -b 127.0.0.2 -Djboss.service.binding.set=ports-02 -Djboss.messaging.ServerPeerID=1 -Dsession.serialization.jboss=false > $LOG/lb-uas-load-port-2-jboss.log 2>&1 &
 export NODE2_PID="$!"
 echo "NODE2: $NODE2_PID"

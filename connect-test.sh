@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export JSLEE_HOME=$PWD
+export JBOSS_HOME=$JSLEE_HOME/jboss-5.1.0.GA
 export LOG=$JSLEE_HOME/test-logs
 export REPORTS=$JSLEE_HOME/test-reports
 #export REPORT=$REPORTS/connect-report.log
