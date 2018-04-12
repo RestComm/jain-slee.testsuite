@@ -162,9 +162,14 @@ cd $JSLEE_HOME/extra/restcomm-smpp-extensions/restcomm-smpp-extensions-*/wildfly
 ant deploy
 
 startSlee
-check smpp deploy 7 undeploy 25
+check smpp deploy 30 undeploy 40
+
+sleep 20
 
 stopSlee
+
+cd $JSLEE_HOME/extra/restcomm-smpp-extensions/restcomm-smpp-extensions-*/wildfly
+ant undeploy
 
 # Diameter
 echo -e "\n    Deploy jDiameter Stack Mux" >> $REPORT
