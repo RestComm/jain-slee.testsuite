@@ -159,7 +159,7 @@ ant undeploy
 
 #SMPP
 cd $JSLEE_HOME/extra/restcomm-smpp-extensions/restcomm-smpp-extensions-*/wildfly
-ant deploy-telscale
+ant deploy
 
 startSlee
 check smpp deploy 7 undeploy 7
