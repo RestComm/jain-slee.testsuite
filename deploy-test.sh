@@ -55,7 +55,7 @@ function check
   then
     ERRCOUNT=1
   fi
-  echo "Wait $3 seconds.."
+  echo "Wait $5 seconds.."
   sleep $5
   diff $LOG/temp-"$1"-1.log $LOG/deploy-jboss.log > $LOG/temp-"$1".undeploy.log
   
@@ -162,7 +162,7 @@ cd $JSLEE_HOME/extra/restcomm-smpp-extensions/restcomm-smpp-extensions-*/wildfly
 ant deploy
 
 startSlee
-check smpp deploy 7 undeploy 7
+check smpp deploy 7 undeploy 25
 
 stopSlee
 
